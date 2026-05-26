@@ -22,7 +22,7 @@ soxr
 # Machine learning and deep learning
 omegaconf>=2.0.6; sys_platform == 'darwin'
 numba==0.65.0
-torch==2.7.1; sys_platform == 'darwin'
+torch==2.8.0; sys_platform == 'darwin'
 torch==2.7.1+cu128; sys_platform == 'linux' or sys_platform == 'win32'
 torchaudio==2.7.1; sys_platform == 'darwin'
 torchaudio==2.7.1+cu128; sys_platform == 'linux' or sys_platform == 'win32'
@@ -36,7 +36,7 @@ transformers==5.4.0
 # Visualization and UI
 matplotlib==3.10.8
 tensorboard
-gradio==5.50.0
+gradio==6.7.0
 
 # Miscellaneous utilities
 certifi>=2026.2.25; sys_platform == 'darwin'
