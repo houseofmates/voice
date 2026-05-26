@@ -2,7 +2,7 @@
 
 if /i "%cd%"=="C:\Windows\System32" (
     color 0C
-    echo Applio does not require administrator permissions and should be run as a regular user.
+    echo Voice does not require administrator permissions and should be run as a regular user.
     echo.
     pause
     exit /b 1

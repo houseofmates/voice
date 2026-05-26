@@ -1,7 +1,7 @@
 {
   "theme": {
-    "file": "Applio.py",
-    "class": "Applio"
+    "file": "Voice.py",
+    "class": "Voice"
   },
   "plugins": [],
   "discord_presence": true,

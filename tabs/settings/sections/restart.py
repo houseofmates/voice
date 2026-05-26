@@ -91,7 +91,7 @@ i18n = I18nAuto()
 def restart_tab():
     with gr.Row():
         with gr.Column():
-            restart_button = gr.Button(i18n("Restart Applio"))
+            restart_button = gr.Button(i18n("Restart Voice"))
             restart_button.click(
                 fn=restart_applio,
                 inputs=[],

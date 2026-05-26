@@ -1,24 +1,26 @@
-*.exe
-*.pt
-*.onnx
-*.pyc
-*.pth
-*.index
-*.mp3
-*.flac
-*.ogg
-*.m4a
-*.bin
-*.wav
-*.txt
-*.zip
-*.png
-*.safetensors
+# build artifacts
+releases/
+dist/
+build/
+*.spec
 
-assets/audios
-assets/datasets
-logs
-rvc/models
-env
-venv
-.venv
+# android
+.buildozer/
+*.apk
+__pycache__/
+*.pyc
+
+# models (user data)
+models/presets.json
+models/last_session.json
+models/library.json
+models/soundboard/
+
+# python
+venv/
+.venv/
+*.egg-info/
+
+# system
+.DS_Store
+Thumbs.db

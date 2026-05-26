@@ -1,50 +1,45 @@
+# Voice - A Cozy All-in-One Voice Changer
+# Fork of Applio, redesigned for comfort and voice dysphoria support.
+#
+# Install with: pip install -r requirements.txt
+
 # Core dependencies
-setuptools==81.0.0
-pip>=23.3; sys_platform == 'darwin'
-wheel; sys_platform == 'darwin'
-PyYAML; sys_platform == 'darwin'
-numpy==2.4.4
+setuptools
+numpy
 requests
 tqdm
-wget
 
 # Audio processing
 ffmpeg-python>=0.2.0
-faiss-cpu==1.13.2
-librosa==0.11.0
-scipy==1.17.1
-soundfile==0.13.1
+librosa
+scipy
+soundfile>=0.13.1
+sounddevice
 noisereduce
 pedalboard
 stftpitchshift
 soxr
 
 # Machine learning and deep learning
-omegaconf>=2.0.6; sys_platform == 'darwin'
-numba==0.65.0
-torch==2.7.1; sys_platform == 'darwin'
-torch==2.7.1+cu128; sys_platform == 'linux' or sys_platform == 'win32'
-torchaudio==2.7.1; sys_platform == 'darwin'
-torchaudio==2.7.1+cu128; sys_platform == 'linux' or sys_platform == 'win32'
-torchvision==0.22.1; sys_platform == 'darwin'
-torchvision==0.22.1+cu128; sys_platform == 'linux' or sys_platform == 'win32'
+torch
+torchaudio
+torchvision
 torchcrepe
-torchfcpe
 einops
-transformers==5.4.0
+transformers
 
 # Visualization and UI
-matplotlib==3.10.8
+gradio
+matplotlib
 tensorboard
-gradio==5.50.0
+tensorboardX
+
+# Text-to-Speech (lightweight)
+edge-tts
 
 # Miscellaneous utilities
-certifi>=2026.2.25; sys_platform == 'darwin'
-antlr4-python3-runtime==4.13.2; sys_platform == 'darwin'
-tensorboardX
-edge-tts==7.2.8
 pypresence
 beautifulsoup4
-sounddevice
 webrtcvad-wheels
 psutil
+Pillow

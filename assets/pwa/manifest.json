@@ -1,0 +1,21 @@
+{
+  "name": "voice",
+  "short_name": "voice",
+  "description": "real-time voice changer — feel like you. sound like home.",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#050505",
+  "theme_color": "#050505",
+  "categories": ["audio", "multimedia", "utilities"],
+  "icons": [
+    {
+      "src": "/icon.png",
+      "sizes": "256x256",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [],
+  "prefer_related_applications": false
+}

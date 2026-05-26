@@ -1,0 +1,395 @@
+// voice.css — pkm aesthetic (frontend skill)
+// solid #050505, varela round, yellow/blue, no gradients, no shadows, lowercase
+
+@import url('https://fonts.googleapis.com/css2?family=Varela+Round&display=swap');
+
+* {
+    font-family: 'Varela Round', sans-serif !important;
+}
+
+body {
+    background: #050505 !important;
+}
+
+.gradio-container {
+    max-width: 1400px !important;
+    margin: 0 auto !important;
+    padding: 20px !important;
+    background: transparent !important;
+}
+
+// global lowercase
+label, button, .gr-button, .tab-nav button, .card-header,
+h1, h2, h3, h4, h5, h6, span, p, .gr-box, .gr-input,
+input, textarea, select, .gr-dropdown, .app-title, .app-tagline,
+.welcome-section h1, .welcome-section .subtitle, .welcome-section .comfort-text {
+    text-transform: lowercase !important;
+}
+
+// header
+.app-header {
+    text-align: center;
+    padding: 30px 20px 10px 20px;
+    margin-bottom: 20px;
+}
+
+.app-title {
+    font-family: 'Varela Round', sans-serif !important;
+    font-weight: 400 !important;
+    font-size: 2.8em !important;
+    color: #ffffff !important;
+    letter-spacing: 1px;
+    margin-bottom: 5px !important;
+}
+
+.app-tagline {
+    font-family: 'Varela Round', sans-serif !important;
+    font-weight: 400 !important;
+    font-size: 1.2em !important;
+    color: #f6b012 !important;
+    letter-spacing: 2px;
+    text-transform: lowercase;
+}
+
+// tab nav
+.tab-nav {
+    background: #000000 !important;
+    border: 1px solid #1a1a1a !important;
+    border-radius: 0 !important;
+    padding: 4px !important;
+    margin-bottom: 20px !important;
+}
+
+.tab-nav button {
+    background: transparent !important;
+    border: none !important;
+    color: #666666 !important;
+    font-family: 'Varela Round', sans-serif !important;
+    font-weight: 400 !important;
+    font-size: 0.95em !important;
+    padding: 10px 20px !important;
+    border-radius: 0 !important;
+    transition: color 0.15s ease !important;
+    cursor: pointer !important;
+    flex: 1 !important;
+    text-transform: lowercase !important;
+}
+
+.tab-nav button:hover {
+    color: #ffffff !important;
+    background: transparent !important;
+}
+
+.tab-nav button.selected {
+    color: #f6b012 !important;
+    background: transparent !important;
+}
+
+// cards
+.card {
+    background: #000000 !important;
+    border: 1px solid #1a1a1a !important;
+    border-radius: 0 !important;
+    padding: 20px !important;
+    box-shadow: none !important;
+}
+
+.card-header {
+    font-family: 'Varela Round', sans-serif !important;
+    font-weight: 400 !important;
+    font-size: 1.3em !important;
+    color: #f6b012 !important;
+    margin-bottom: 16px !important;
+    padding-bottom: 10px !important;
+    border-bottom: 1px solid #1a1a1a !important;
+    text-transform: lowercase !important;
+}
+
+// buttons
+button, .gr-button {
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    transition: opacity 0.15s ease !important;
+    font-family: 'Varela Round', sans-serif !important;
+    font-weight: 400 !important;
+    cursor: pointer !important;
+    border: 1px solid transparent !important;
+    text-transform: lowercase !important;
+}
+
+button:hover, .gr-button:hover {
+    opacity: 0.85 !important;
+}
+
+// primary — yellow
+.gr-button-primary, button.lg.primary, input[type="submit"] {
+    background: #f6b012 !important;
+    color: #050505 !important;
+    border: 1px solid #f6b012 !important;
+}
+
+.gr-button-primary:hover, button.lg.primary:hover, input[type="submit"]:hover {
+    background: #f6b012 !important;
+    opacity: 0.85 !important;
+}
+
+// secondary — blue
+.gr-button-secondary, button.lg.secondary {
+    background: transparent !important;
+    color: #3c9fdd !important;
+    border: 1px solid #3c9fdd !important;
+}
+
+.gr-button-secondary:hover, button.lg.secondary:hover {
+    background: #3c9fdd !important;
+    color: #050505 !important;
+    opacity: 1 !important;
+}
+
+// stop — blue filled
+.gr-button-stop, button.lg.stop {
+    background: #3c9fdd !important;
+    color: #ffffff !important;
+    border: 1px solid #3c9fdd !important;
+}
+
+// inputs
+input, textarea, select, .gr-input, .gr-box {
+    background: #050505 !important;
+    border: 1px solid #1a1a1a !important;
+    border-radius: 0 !important;
+    color: #ffffff !important;
+    padding: 10px 14px !important;
+    font-family: 'Varela Round', sans-serif !important;
+    transition: border-color 0.15s ease !important;
+}
+
+input:focus, textarea:focus, select:focus, .gr-input:focus {
+    border-color: #f6b012 !important;
+    box-shadow: none !important;
+    outline: none !important;
+}
+
+input::placeholder, textarea::placeholder {
+    color: #444444 !important;
+}
+
+// dropdowns
+.gr-dropdown, select {
+    background: #050505 !important;
+    border: 1px solid #1a1a1a !important;
+    border-radius: 0 !important;
+    color: #ffffff !important;
+}
+
+.gr-dropdown:focus, select:focus {
+    border-color: #f6b012 !important;
+}
+
+// sliders
+input[type="range"] {
+    -webkit-appearance: none !important;
+    width: 100% !important;
+    height: 4px !important;
+    background: #1a1a1a !important;
+    border-radius: 0 !important;
+    outline: none !important;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none !important;
+    width: 16px !important;
+    height: 16px !important;
+    background: #f6b012 !important;
+    border-radius: 0 !important;
+    cursor: pointer !important;
+    box-shadow: none !important;
+}
+
+// checkbox
+.gr-checkbox, input[type="checkbox"] {
+    accent-color: #f6b012 !important;
+}
+
+// voice meter (simplified, no glow)
+.voice-meter-container {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    padding: 20px !important;
+}
+
+.voice-meter-ring {
+    width: 100px !important;
+    height: 100px !important;
+    border-radius: 50% !important;
+    border: 2px solid #1a1a1a !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.voice-meter-inner {
+    width: 80px !important;
+    height: 80px !important;
+    border-radius: 50% !important;
+    background: #050505 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    color: #ffffff !important;
+    font-family: 'Varela Round', sans-serif !important;
+    font-weight: 400 !important;
+    font-size: 0.8em !important;
+}
+
+// voice library grid
+.voice-library-grid {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)) !important;
+    gap: 12px !important;
+    padding: 10px !important;
+}
+
+.voice-model-card {
+    background: #000000 !important;
+    border: 1px solid #1a1a1a !important;
+    border-radius: 0 !important;
+    padding: 16px !important;
+    text-align: center !important;
+    cursor: pointer !important;
+    transition: border-color 0.15s ease !important;
+}
+
+.voice-model-card:hover {
+    border-color: #f6b012 !important;
+}
+
+.voice-model-card.selected {
+    border-color: #3c9fdd !important;
+}
+
+.voice-model-thumb {
+    width: 60px !important;
+    height: 60px !important;
+    border-radius: 0 !important;
+    object-fit: cover !important;
+    margin: 0 auto 10px !important;
+    border: 1px solid #1a1a1a !important;
+}
+
+.voice-model-name {
+    font-family: 'Varela Round', sans-serif !important;
+    font-weight: 400 !important;
+    color: #ffffff !important;
+    font-size: 0.9em !important;
+    margin-bottom: 4px !important;
+}
+
+.voice-model-star {
+    color: #f6b012 !important;
+    cursor: pointer !important;
+    font-size: 1.1em !important;
+}
+
+// pitch display
+.pitch-display {
+    font-family: 'Varela Round', sans-serif !important;
+    font-size: 1.6em !important;
+    font-weight: 400 !important;
+    color: #f6b012 !important;
+    text-align: center !important;
+    padding: 10px !important;
+}
+
+// progress bars
+progress, .gr-progress {
+    border-radius: 0 !important;
+    height: 4px !important;
+    background: #1a1a1a !important;
+}
+
+progress::-webkit-progress-bar {
+    background: #1a1a1a !important;
+    border-radius: 0 !important;
+}
+
+progress::-webkit-progress-value {
+    background: #f6b012 !important;
+    border-radius: 0 !important;
+}
+
+// welcome
+.welcome-section {
+    text-align: center !important;
+    padding: 40px 20px !important;
+}
+
+.welcome-section h1 {
+    font-family: 'Varela Round', sans-serif !important;
+    font-weight: 400 !important;
+    font-size: 2.2em !important;
+    color: #ffffff !important;
+    margin-bottom: 10px !important;
+}
+
+.welcome-section .subtitle {
+    font-family: 'Varela Round', sans-serif !important;
+    font-weight: 400 !important;
+    font-size: 1.1em !important;
+    color: #666666 !important;
+    letter-spacing: 1px !important;
+}
+
+.welcome-section .comfort-text {
+    font-family: 'Varela Round', sans-serif !important;
+    font-weight: 400 !important;
+    font-size: 1em !important;
+    color: #f6b012 !important;
+    margin-top: 20px !important;
+}
+
+// settings sections
+.settings-section {
+    margin-bottom: 20px !important;
+}
+
+.settings-section h3 {
+    font-family: 'Varela Round', sans-serif !important;
+    font-weight: 400 !important;
+    color: #ffffff !important;
+    margin-bottom: 12px !important;
+}
+
+// info/growl
+.gr-info, .gr-alert {
+    border-radius: 0 !important;
+    border: none !important;
+    font-family: 'Varela Round', sans-serif !important;
+}
+
+.gr-info {
+    background: #000000 !important;
+    color: #3c9fdd !important;
+    border-left: 2px solid #3c9fdd !important;
+}
+
+// footer
+footer { display: none !important; }
+
+// light mode override
+body.light-mode {
+    background: #f5f0eb !important;
+}
+body.light-mode .card,
+body.light-mode .tab-nav {
+    background: #ffffff !important;
+    border-color: #ddd !important;
+}
+body.light-mode input,
+body.light-mode textarea,
+body.light-mode select {
+    background: #faf8f5 !important;
+    border-color: #ddd !important;
+    color: #222 !important;
+}

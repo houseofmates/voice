@@ -3,7 +3,7 @@ from concurrent.futures import ThreadPoolExecutor
 from tqdm import tqdm
 import requests
 
-url_base = "https://huggingface.co/IAHispano/Applio/resolve/main/Resources"
+url_base = "https://huggingface.co/IAHispano/Voice/resolve/main/Resources"
 
 pretraineds_hifigan_list = [
     (

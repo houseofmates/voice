@@ -1,0 +1,281 @@
+from __future__ import annotations
+
+from typing import Iterable
+import gradio as gr
+
+from gradio.themes.base import Base
+from gradio.themes.utils import colors, fonts, sizes
+
+
+class Voice(Base):
+    """Voice theme — pkm aesthetic.
+    Solid #050505, Varela Round, yellow/blue accent, no shadows, lowercase.
+    """
+    def __init__(
+        self,
+        *,
+        primary_hue: colors.Color | str = colors.amber,
+        secondary_hue: colors.Color | str = colors.blue,
+        neutral_hue: colors.Color | str = colors.gray,
+        spacing_size: sizes.Size | str = sizes.spacing_md,
+        radius_size: sizes.Size | str = sizes.radius_md,
+        text_size: sizes.Size | str = sizes.text_lg,
+        font: fonts.Font | str | Iterable[fonts.Font | str] = (
+            "Varela Round",
+            fonts.GoogleFont("Varela Round"),
+            "sans-serif",
+        ),
+        font_mono: fonts.Font | str | Iterable[fonts.Font | str] = (
+            "Varela Round",
+            fonts.GoogleFont("Varela Round"),
+        ),
+    ):
+        super().__init__(
+            primary_hue=primary_hue,
+            secondary_hue=secondary_hue,
+            neutral_hue=neutral_hue,
+            spacing_size=spacing_size,
+            radius_size=radius_size,
+            text_size=text_size,
+            font=font,
+            font_mono=font_mono,
+        )
+        self.name = "Voice"
+
+        super().set(
+            # body — solid #050505
+            body_background_fill="#050505",
+            body_background_fill_dark="#050505",
+            background_fill_primary="#050505",
+            background_fill_primary_dark="#050505",
+            background_fill_secondary="#000000",
+            background_fill_secondary_dark="#000000",
+
+            # blocks (cards) — solid black
+            block_background_fill="#000000",
+            block_background_fill_dark="#000000",
+            block_border_color="#1a1a1a",
+            block_border_color_dark="#1a1a1a",
+            block_border_width="1px",
+            block_border_width_dark="1px",
+            block_radius="0",
+            block_padding="*spacing_xl",
+            block_shadow="none",
+            block_shadow_dark="none",
+
+            # block info / labels
+            block_info_text_color="#666666",
+            block_info_text_color_dark="#666666",
+            block_info_text_size="*text_sm",
+            block_label_background_fill="#050505",
+            block_label_background_fill_dark="#050505",
+            block_label_border_color="#1a1a1a",
+            block_label_border_color_dark="#1a1a1a",
+            block_label_border_width="1px",
+            block_label_margin="0",
+            block_label_padding="*spacing_sm *spacing_lg",
+            block_label_radius="0",
+            block_label_right_radius="0",
+            block_label_text_color="#ffffff",
+            block_label_text_color_dark="#ffffff",
+            block_label_text_weight="400",
+
+            # block titles
+            block_title_background_fill="transparent",
+            block_title_background_fill_dark="transparent",
+            block_title_border_color="none",
+            block_title_border_color_dark="none",
+            block_title_padding="*block_label_padding",
+            block_title_radius="0",
+            block_title_text_color="#f6b012",
+            block_title_text_color_dark="#f6b012",
+            block_title_text_size="*text_lg",
+            block_title_text_weight="400",
+
+            # body text
+            body_text_color="#ffffff",
+            body_text_color_dark="#ffffff",
+            body_text_color_subdued="#666666",
+            body_text_color_subdued_dark="#666666",
+            body_text_size="*text_md",
+            body_text_weight="400",
+
+            # borders
+            border_color_accent="#f6b012",
+            border_color_accent_dark="#f6b012",
+            border_color_primary="#1a1a1a",
+            border_color_primary_dark="#1a1a1a",
+
+            # buttons — primary (yellow)
+            button_primary_background_fill="#f6b012",
+            button_primary_background_fill_dark="#f6b012",
+            button_primary_background_fill_hover="#f6b012",
+            button_primary_background_fill_hover_dark="#f6b012",
+            button_primary_border_color="#f6b012",
+            button_primary_border_color_dark="#f6b012",
+            button_primary_border_color_hover="#f6b012",
+            button_primary_border_color_hover_dark="#f6b012",
+            button_primary_text_color="#050505",
+            button_primary_text_color_dark="#050505",
+            button_primary_text_color_hover="#050505",
+            button_primary_text_color_hover_dark="#050505",
+
+            # buttons — secondary (blue outline)
+            button_secondary_background_fill="transparent",
+            button_secondary_background_fill_dark="transparent",
+            button_secondary_background_fill_hover="#3c9fdd",
+            button_secondary_background_fill_hover_dark="#3c9fdd",
+            button_secondary_border_color="#3c9fdd",
+            button_secondary_border_color_dark="#3c9fdd",
+            button_secondary_border_color_hover="#3c9fdd",
+            button_secondary_border_color_hover_dark="#3c9fdd",
+            button_secondary_text_color="#3c9fdd",
+            button_secondary_text_color_dark="#3c9fdd",
+            button_secondary_text_color_hover="#050505",
+            button_secondary_text_color_hover_dark="#050505",
+
+            # buttons — cancel/stop (blue filled)
+            button_cancel_background_fill="#3c9fdd",
+            button_cancel_background_fill_dark="#3c9fdd",
+            button_cancel_background_fill_hover="#3c9fdd",
+            button_cancel_background_fill_hover_dark="#3c9fdd",
+            button_cancel_border_color="#3c9fdd",
+            button_cancel_border_color_dark="#3c9fdd",
+            button_cancel_border_color_hover="#3c9fdd",
+            button_cancel_border_color_hover_dark="#3c9fdd",
+            button_cancel_text_color="#ffffff",
+            button_cancel_text_color_dark="#ffffff",
+            button_cancel_text_color_hover="#ffffff",
+            button_cancel_text_color_hover_dark="#ffffff",
+
+            # button sizes
+            button_large_padding="*spacing_lg calc(2 * *spacing_lg)",
+            button_large_radius="0",
+            button_large_text_size="*text_lg",
+            button_large_text_weight="400",
+            button_small_padding="*spacing_sm calc(2 * *spacing_sm)",
+            button_small_radius="0",
+            button_small_text_size="*text_md",
+            button_small_text_weight="400",
+            button_transition="0.15s ease all",
+
+            # checkboxes
+            checkbox_background_color="#1a1a1a",
+            checkbox_background_color_dark="#1a1a1a",
+            checkbox_background_color_focus="#050505",
+            checkbox_background_color_focus_dark="#050505",
+            checkbox_background_color_hover="#050505",
+            checkbox_background_color_hover_dark="#050505",
+            checkbox_background_color_selected="#f6b012",
+            checkbox_background_color_selected_dark="#f6b012",
+            checkbox_border_color="#1a1a1a",
+            checkbox_border_color_dark="#1a1a1a",
+            checkbox_border_color_focus="#f6b012",
+            checkbox_border_color_focus_dark="#f6b012",
+            checkbox_border_color_hover="#f6b012",
+            checkbox_border_color_hover_dark="#f6b012",
+            checkbox_border_color_selected="#f6b012",
+            checkbox_border_color_selected_dark="#f6b012",
+            checkbox_border_radius="0",
+            checkbox_border_width="1px",
+            checkbox_border_width_dark="1px",
+            checkbox_label_text_color="#ffffff",
+            checkbox_label_text_color_dark="#ffffff",
+            checkbox_label_text_size="*text_md",
+            checkbox_label_text_weight="400",
+            checkbox_shadow="none",
+
+            # inputs
+            input_background_fill="#050505",
+            input_background_fill_dark="#050505",
+            input_background_fill_focus="#050505",
+            input_background_fill_focus_dark="#050505",
+            input_background_fill_hover="#050505",
+            input_background_fill_hover_dark="#050505",
+            input_border_color="#1a1a1a",
+            input_border_color_dark="#1a1a1a",
+            input_border_color_focus="#f6b012",
+            input_border_color_focus_dark="#f6b012",
+            input_border_color_hover="#1a1a1a",
+            input_border_color_hover_dark="#1a1a1a",
+            input_border_width="1px",
+            input_border_width_dark="1px",
+            input_padding="*spacing_md *spacing_lg",
+            input_placeholder_color="#444444",
+            input_placeholder_color_dark="#444444",
+            input_radius="0",
+            input_shadow="none",
+            input_shadow_dark="none",
+            input_shadow_focus="none",
+            input_shadow_focus_dark="none",
+            input_text_size="*text_md",
+            input_text_weight="400",
+
+            # layout
+            container_radius="0",
+            embed_radius="0",
+            layout_gap="*spacing_xxl",
+
+            # links
+            link_text_color="#3c9fdd",
+            link_text_color_active="#3c9fdd",
+            link_text_color_active_dark="#3c9fdd",
+            link_text_color_dark="#3c9fdd",
+            link_text_color_hover="#3c9fdd",
+            link_text_color_hover_dark="#3c9fdd",
+            link_text_color_visited="#3c9fdd",
+            link_text_color_visited_dark="#3c9fdd",
+
+            # loader
+            loader_color="#f6b012",
+            loader_color_dark="#f6b012",
+
+            # panels
+            panel_background_fill="#000000",
+            panel_background_fill_dark="#000000",
+            panel_border_color="#1a1a1a",
+            panel_border_color_dark="#1a1a1a",
+            panel_border_width="1px",
+            panel_border_width_dark="1px",
+
+            # shadows — all none
+            shadow_drop="none",
+            shadow_drop_lg="none",
+            shadow_inset="none",
+            shadow_spread="0",
+            shadow_spread_dark="0",
+
+            # slider
+            slider_color="#f6b012",
+            slider_color_dark="#f6b012",
+
+            # stat
+            stat_background_fill="#f6b012",
+            stat_background_fill_dark="#f6b012",
+
+            # tables
+            table_border_color="#1a1a1a",
+            table_border_color_dark="#1a1a1a",
+            table_even_background_fill="#000000",
+            table_even_background_fill_dark="#000000",
+            table_odd_background_fill="#050505",
+            table_odd_background_fill_dark="#050505",
+            table_radius="0",
+            table_row_focus="rgba(246,176,18,0.08)",
+            table_row_focus_dark="rgba(246,176,18,0.08)",
+
+            # error
+            error_text_color="#ffffff",
+            error_text_color_dark="#ffffff",
+            error_background_fill="#000000",
+            error_background_fill_dark="#000000",
+            error_border_color="#1a1a1a",
+            error_border_color_dark="#1a1a1a",
+            error_border_width="1px",
+            error_border_width_dark="1px",
+
+            # color accent
+            color_accent="#f6b012",
+            color_accent_soft="rgba(246,176,18,0.06)",
+            color_accent_soft_dark="rgba(246,176,18,0.06)",
+        )

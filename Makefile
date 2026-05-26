@@ -13,7 +13,7 @@ run-install:
 	pip install -r requirements.txt
 	apt-get update
 
-# Run Applio
+# Run Voice
 run-applio:
 	python app.py --share
 

@@ -97,7 +97,7 @@ install_python_ffmpeg() {
 # Function to create or activate a virtual environment
 prepare_install() {
     if [ -d ".venv" ]; then
-        log_message "Virtual environment found. This implies Applio has been already installed or this is a broken install."
+        log_message "Virtual environment found. This implies Voice has been already installed or this is a broken install."
         if confirm "Do you want to execute the install script again?"; then
             log_message "Continuing with the installation."
             rm -rf .venv
@@ -150,7 +150,7 @@ create_venv() {
 finish() {
     # clear
     log_message "##########"
-    log_message "Applio has been successfully installed. Run the file run-applio.sh to start the web interface!"
+    log_message "Voice has been successfully installed. Run the file run-applio.sh to start the web interface!"
     log_message "##########"
     exit 0
 }

@@ -1,8 +1,8 @@
 @echo off
 setlocal enabledelayedexpansion
-title Applio Installer
+title Voice Installer
 
-echo Welcome to the Applio Installer!
+echo Welcome to the Voice Installer!
 echo.
 
 set "INSTALL_DIR=%cd%"
@@ -42,8 +42,8 @@ set /a seconds = elapsed %% 60
 echo Installation time: %hours% hours, %minutes% minutes, %seconds% seconds.
 echo.
 
-echo Applio has been installed successfully!
-echo To start Applio, please run 'run-applio.bat'.
+echo Voice has been installed successfully!
+echo To start Voice, please run 'run-applio.bat'.
 echo.
 pause
 exit /b 0
