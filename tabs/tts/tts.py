@@ -370,7 +370,7 @@ def tts_tab():
     terms_checkbox = gr.Checkbox(
         label=i18n("I agree to the terms of use"),
         info=i18n(
-            "Please ensure compliance with the terms and conditions detailed in [this document](https://github.com/IAHispano/Voice/blob/main/TERMS_OF_USE.md) before proceeding with your inference."
+            "Please ensure compliance with the terms and conditions detailed in [this document](https://github.com/IAHispano/Applio/blob/main/TERMS_OF_USE.md) before proceeding with your inference."
         ),
         value=False,
         interactive=True,

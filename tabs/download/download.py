@@ -13,6 +13,8 @@ from tqdm import tqdm
 now_dir = os.getcwd()
 sys.path.append(now_dir)
 
+from rvc.lib import paths as _paths
+
 from core import run_download_script
 from rvc.lib.utils import format_title
 
@@ -43,7 +45,7 @@ def save_drop_model(dropbox):
             model_name = model_name.replace(rep, "")
         model_name = model_name.split(".index")[0]
 
-    model_path = os.path.join(now_dir, "logs", model_name)
+    model_path = os.path.join(_paths.models_root(), model_name)
     if not os.path.exists(model_path):
         os.makedirs(model_path)
     if os.path.exists(os.path.join(model_path, file_name)):
@@ -55,11 +57,11 @@ def save_drop_model(dropbox):
     return None
 
 
-json_url = "https://huggingface.co/IAHispano/Voice/raw/main/pretrains.json"
+json_url = "https://huggingface.co/IAHispano/Applio/raw/main/pretrains.json"
 
 
 def fetch_pretrained_data():
-    pretraineds_custom_path = os.path.join("rvc", "models", "pretraineds", "custom")
+    pretraineds_custom_path = os.path.join(_paths.data_path(), "rvc", "models", "pretraineds", "custom")
     os.makedirs(pretraineds_custom_path, exist_ok=True)
     try:
         with open(

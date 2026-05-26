@@ -7,6 +7,10 @@ Core RVC voice conversion functionality is preserved.
 from rvc.lib.platform import platform_config
 platform_config()
 
+from rvc.lib import paths as _paths
+from rvc.lib.appimage_bootstrap import init as _appimage_init
+_appimage_init()
+
 import gradio as gr
 import sys
 import os
@@ -24,6 +28,9 @@ logging.getLogger("httpx").setLevel(logging.WARNING)
 
 now_dir = os.getcwd()
 sys.path.append(now_dir)
+
+# -- appimage writable path fix (handled by AppRun symlinks) --
+import logging
 
 if sys.platform == "win32":
     import asyncio.proactor_events as _pe
@@ -81,7 +88,26 @@ import assets.installation_checker as installation_checker
 installation_checker.check_installation()
 
 import assets.themes.loadThemes as loadThemes
-my_voice_theme = loadThemes.load_theme() or "ParityError/Interstellar"
+# for gradio 6, use default theme + custom css to avoid theme serialization bugs
+my_voice_theme = None
+
+# monkey-patch gradio 6's json serialization bug
+# hf_gradio/cli.py's generate_cli_snippet fails when an endpoint param default
+# is a non-JSON-serializable type like a class object
+try:
+    import hf_gradio.cli as _hf_cli
+    import json as _json
+    _orig_generate = _hf_cli.generate_cli_snippet
+    def _patched_generate(original_info):
+        import logging as _log
+        try:
+            return _orig_generate(original_info)
+        except TypeError as _e:
+            _log.warning(f"gradio cli snippet generation failed (non-serializable param): {_e}")
+            return {}
+    _hf_cli.generate_cli_snippet = _patched_generate
+except ImportError:
+    pass
 client_mode = "--client" in sys.argv
 
 # === CUSTOM CSS ===
@@ -109,9 +135,9 @@ def get_device_choices():
 # === VOICE LIBRARY TAB (inline for simplicity) ===
 def voice_library_tab():
     """Voice library manager - shows trained models in a visual grid."""
-    model_dir = os.path.join(now_dir, "logs")
-    lib_path = os.path.join(now_dir, "models", "library.json")
-    os.makedirs(os.path.join(now_dir, "models"), exist_ok=True)
+    model_dir = _paths.models_root()
+    lib_path = os.path.join(_paths.data_path(), "models", "library.json")
+    os.makedirs(os.path.join(_paths.data_path(), "models"), exist_ok=True)
 
     # Load or create library
     if os.path.exists(lib_path):
@@ -155,7 +181,7 @@ def voice_library_tab():
     preview = gr.HTML("")
 
     def save_model(name, thumb_file, favorite):
-        lib_path = os.path.join(now_dir, "models", "library.json")
+        lib_path = os.path.join(_paths.data_path(), "models", "library.json")
         if os.path.exists(lib_path):
             with open(lib_path, "r") as f:
                 lib = json.load(f)
@@ -498,14 +524,14 @@ def studio_tab():
                                 sample_rate = sr_part.split("k")[0]
                                 
                                 # hugginface paths from the original download system
-                                hf_base = "https://huggingface.co/IAHispano/Voice/resolve/main/pretraineds"
+                                hf_base = "https://huggingface.co/IAHispano/Applio/resolve/main/pretraineds"
                                 model_dir = f"{model_name}-{sample_rate}k"
                                 file_g = f"G_{model_name}-{sample_rate}k.pth"
                                 file_d = f"D_{model_name}-{sample_rate}k.pth"
                                 url_g = f"{hf_base}/{model_dir}/{file_g}"
                                 url_d = f"{hf_base}/{model_dir}/{file_d}"
                                 
-                                local_models_dir = os.path.join(now_dir, "rvc", "models", "pretraineds", "custom")
+                                local_models_dir = os.path.join(_paths.data_path(), "rvc", "models", "pretraineds", "custom")
                                 os.makedirs(local_models_dir, exist_ok=True)
                                 
                                 import requests
@@ -707,7 +733,6 @@ def live_tab():
 with gr.Blocks(
     title="voice - your voice, your home",
     css=CUSTOM_CSS,
-    theme=my_voice_theme if not GRADIO_6 else None,
     js=(
         ("() => {\n"
          + "// register pwa service worker\n"
@@ -832,6 +857,28 @@ with gr.Blocks(
 
 # === LAUNCH LOGIC ===
 def launch_gradio(server_name: str, server_port: int) -> None:
+    # patch gradio 6's cli snippet generation right before launch
+    try:
+        import hf_gradio.cli as _hf_cli
+        import gradio.routes as _gr_routes
+        _orig_gen = _hf_cli.generate_cli_snippet
+        def _safe_gen(original_info):
+            import logging as _log
+            try:
+                result = _orig_gen(original_info)
+                # verify all keys exist before returning
+                for ep in original_info:
+                    if ep not in result:
+                        result[ep] = ""
+                return result
+            except Exception as _e:
+                _log.warning(f"cli snippet generation failed: {_e}")
+                # return a fully populated dict matching the input keys
+                return {ep: "" for ep in original_info}
+        _hf_cli.generate_cli_snippet = _safe_gen
+        _gr_routes.generate_cli_snippet = _safe_gen
+    except ImportError:
+        pass
     app, _, _ = VoiceApp.launch(
         favicon_path="assets/ICON.ico",
         share="--share" in sys.argv,

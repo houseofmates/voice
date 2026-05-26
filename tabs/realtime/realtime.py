@@ -1,5 +1,4 @@
 import gradio as gr
-import sounddevice as sd
 import os
 import sys
 import time
@@ -8,9 +7,20 @@ import regex as re
 import shutil
 import torch
 
+# sounddevice requires system portaudio library; degrade gracefully if unavailable
+_sounddevice_available = False
+try:
+    import sounddevice as sd
+    _sounddevice_available = True
+except OSError:
+    sd = None
+    import logging
+    logging.warning("PortAudio library not found — audio capture/playback disabled. Install portaudio19-dev and restart.")
+
 now_dir = os.getcwd()
 sys.path.append(now_dir)
 
+from rvc.lib import paths as _paths
 from rvc.realtime.callbacks import AudioCallbacks
 from rvc.realtime.audio import list_audio_device, resolve_sample_rate
 from rvc.realtime.core import AUDIO_SAMPLE_RATE
@@ -19,15 +29,13 @@ from assets.i18n.i18n import I18nAuto
 
 i18n = I18nAuto()
 
-model_root = os.path.join(now_dir, "logs")
-custom_embedder_root = os.path.join(
-    now_dir, "rvc", "models", "embedders", "embedders_custom"
-)
+model_root = _paths.models_root()
+custom_embedder_root = _paths.embedder_root()
 
 os.makedirs(custom_embedder_root, exist_ok=True)
 
-custom_embedder_root_relative = os.path.relpath(custom_embedder_root, now_dir)
-model_root_relative = os.path.relpath(model_root, now_dir)
+custom_embedder_root_relative = os.path.relpath(custom_embedder_root, _paths.data_path())
+model_root_relative = os.path.relpath(model_root, _paths.data_path())
 
 
 def normalize_path(p):
@@ -911,7 +919,7 @@ def realtime_tab():
         terms_checkbox = gr.Checkbox(
             label=i18n("I agree to the terms of use"),
             info=i18n(
-                "Please ensure compliance with the terms and conditions detailed in [this document](https://github.com/IAHispano/Voice/blob/main/TERMS_OF_USE.md) before proceeding with your realtime."
+                "Please ensure compliance with the terms and conditions detailed in [this document](https://github.com/IAHispano/Applio/blob/main/TERMS_OF_USE.md) before proceeding with your realtime."
             ),
             value=False,
             interactive=True,
@@ -1665,8 +1673,9 @@ def realtime_tab():
             ), gr.update(choices=new_sids, value=0 if new_sids else None)
 
         def refresh_devices():
-            sd._terminate()
-            sd._initialize()
+            if _sounddevice_available:
+                sd._terminate()
+                sd._initialize()
 
             input_choices, output_choices = get_audio_devices_formatted()
             input_choices, output_choices = list(input_choices.keys()), list(

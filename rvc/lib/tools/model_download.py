@@ -14,7 +14,9 @@ sys.path.append(now_dir)
 from rvc.lib.utils import format_title
 from rvc.lib.tools import gdown
 
-file_path = os.path.join(now_dir, "logs")
+_data_root = lambda: os.environ.get("VOICE_DATA_DIR", now_dir)
+
+file_path = os.path.join(_data_root(), "logs")
 zips_path = os.path.join(file_path, "zips")
 os.makedirs(zips_path, exist_ok=True)
 
@@ -58,7 +60,7 @@ def download_from_url(url):
         print(f"An error occurred downloading the file: {error}")
         return None
     finally:
-        os.chdir(now_dir)
+        os.chdir(_data_root())
 
 
 def extract_google_drive_id(url):

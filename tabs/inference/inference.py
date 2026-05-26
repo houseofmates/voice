@@ -20,13 +20,13 @@ i18n = I18nAuto()
 now_dir = os.getcwd()
 sys.path.append(now_dir)
 
-model_root = os.path.join(now_dir, "logs")
-audio_root = os.path.join(now_dir, "assets", "audios")
-custom_embedder_root = os.path.join(
-    now_dir, "rvc", "models", "embedders", "embedders_custom"
-)
+from rvc.lib import paths as _paths
 
-PRESETS_DIR = os.path.join(now_dir, "assets", "presets")
+model_root = _paths.models_root()
+audio_root = os.path.join(now_dir, "assets", "audios")
+custom_embedder_root = _paths.embedder_root()
+
+PRESETS_DIR = os.path.join(_paths.data_path(), "assets", "presets")
 FORMANTSHIFT_DIR = os.path.join(now_dir, "assets", "formant_shift")
 
 os.makedirs(custom_embedder_root, exist_ok=True)
@@ -1191,7 +1191,7 @@ def inference_tab():
         terms_checkbox = gr.Checkbox(
             label=i18n("I agree to the terms of use"),
             info=i18n(
-                "Please ensure compliance with the terms and conditions detailed in [this document](https://github.com/IAHispano/Voice/blob/main/TERMS_OF_USE.md) before proceeding with your inference."
+                "Please ensure compliance with the terms and conditions detailed in [this document](https://github.com/IAHispano/Applio/blob/main/TERMS_OF_USE.md) before proceeding with your inference."
             ),
             value=False,
             interactive=True,
@@ -1811,7 +1811,7 @@ def inference_tab():
         terms_checkbox_batch = gr.Checkbox(
             label=i18n("I agree to the terms of use"),
             info=i18n(
-                "Please ensure compliance with the terms and conditions detailed in [this document](https://github.com/IAHispano/Voice/blob/main/TERMS_OF_USE.md) before proceeding with your inference."
+                "Please ensure compliance with the terms and conditions detailed in [this document](https://github.com/IAHispano/Applio/blob/main/TERMS_OF_USE.md) before proceeding with your inference."
             ),
             value=False,
             interactive=True,

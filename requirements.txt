@@ -27,10 +27,15 @@ torchvision
 torchcrepe
 einops
 transformers
+resampy
+faiss-cpu
+torchfcpe
+webrtcvad
 
 # Visualization and UI
 gradio
 matplotlib
+pandas
 tensorboard
 tensorboardX
 
@@ -38,6 +43,7 @@ tensorboardX
 edge-tts
 
 # Miscellaneous utilities
+wget
 pypresence
 beautifulsoup4
 webrtcvad-wheels

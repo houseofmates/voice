@@ -3,7 +3,12 @@ from concurrent.futures import ThreadPoolExecutor
 from tqdm import tqdm
 import requests
 
-url_base = "https://huggingface.co/IAHispano/Voice/resolve/main/Resources"
+# use writable data dir for downloads (appimage-safe)
+from rvc.lib import paths as _paths
+
+data_root = _paths.data_path()
+
+url_base = "https://huggingface.co/IAHispano/Applio/resolve/main/Resources"
 
 pretraineds_hifigan_list = [
     (
@@ -36,11 +41,11 @@ executables_list = [
 ]
 
 folder_mapping_list = {
-    "pretrained_v2/": "rvc/models/pretraineds/hifi-gan/",
-    "refinegan/": "rvc/models/pretraineds/refinegan/",
-    "embedders/contentvec/": "rvc/models/embedders/contentvec/",
-    "predictors/": "rvc/models/predictors/",
-    "formant/": "rvc/models/formant/",
+    "pretrained_v2/": os.path.join(data_root, "rvc/models/pretraineds/hifi-gan") + "/",
+    "refinegan/": os.path.join(data_root, "rvc/models/pretraineds/refinegan") + "/",
+    "embedders/contentvec/": os.path.join(data_root, "rvc/models/embedders/contentvec") + "/",
+    "predictors/": os.path.join(data_root, "rvc/models/predictors") + "/",
+    "formant/": os.path.join(data_root, "rvc/models/formant") + "/",
 }
 
 

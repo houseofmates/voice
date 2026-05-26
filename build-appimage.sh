@@ -1,113 +1,97 @@
 #!/bin/bash
-# build voice appimage — bundles python + deps + app into a portable executable
+# build voice appimage — bundles a complete python venv + app into a portable appimage
+# uses venv-bundling instead of pyinstaller (gradio 6's dynamic imports don't work with pyinstaller)
 set -e
 
 cd "$(dirname "$0")"
 APP_DIR="$(pwd)"
 RELEASE_DIR="$APP_DIR/releases"
 VERSION="${VERSION:-$(date +%Y%m%d)}"
+VENV_DIR="/tmp/voice-appimage-venv-$VERSION"
+APPDIR="$APP_DIR/dist/Voice.AppDir"
 
 echo "==> building voice appimage (v$VERSION)"
 
-# 1. ensure pyinstaller
-pip3 install --break-system-packages pyinstaller 2>/dev/null || true
+# 1. create a fresh venv
+rm -rf "$VENV_DIR"
+python3 -m venv "$VENV_DIR"
+source "$VENV_DIR/bin/activate"
 
-# 2. create a bootstrap entry point that pyinstaller can follow
-cat > /tmp/voice_entry.py << 'EOF'
-"""entry point for pyinstaller build — starts the voice app."""
-import sys, os
+# 2. install deps — includes torch for RVC voice conversion
+echo "==> installing dependencies..."
+pip install --quiet --upgrade pip wheel setuptools
+pip install --quiet gradio numpy scipy soundfile sounddevice librosa \
+    requests tqdm wget edge-tts beautifulsoup4 psutil noisereduce \
+    pedalboard stftpitchshift soxr einops transformers \
+    matplotlib tensorboard tensorboardX pypresence Pillow \
+    torch torchaudio torchvision \
+    resampy pandas faiss-cpu torchcrepe torchfcpe webrtcvad
 
-# ensure the app dir is in the path
-os.chdir(os.path.dirname(os.path.abspath(__file__)))
-sys.path.insert(0, os.getcwd())
+echo "==> dependencies installed ($(du -sh $VENV_DIR | cut -f1))"
 
-# patch sounddevice portaudio path for bundled lib
-import sounddevice as sd
-# add bundled portaudio to LD path if present
-bundled_pa = os.path.join(os.getcwd(), "libportaudio.so.2")
-if os.path.exists(bundled_pa):
-    os.environ["LD_LIBRARY_PATH"] = os.getcwd() + ":" + os.environ.get("LD_LIBRARY_PATH", "")
+# 3. strip the venv to reduce size
+echo "==> stripping..."
+find "$VENV_DIR" -name "*.pyc" -delete
+# keep torch — needed for RVC voice conversion
+# only strip test dirs and cache
+find "$VENV_DIR" -name "__pycache__" -type d -exec rm -rf {} + 2>/dev/null || true
+find "$VENV_DIR/lib" -name "test" -type d -exec rm -rf {} + 2>/dev/null || true
+find "$VENV_DIR/lib" -name "tests" -type d -exec rm -rf {} + 2>/dev/null || true
 
-# import and run the app
-from app import launch_gradio, get_value_from_args, DEFAULT_SERVER_NAME, DEFAULT_PORT
+echo "==> stripped ($(du -sh $VENV_DIR | cut -f1))"
 
-if __name__ == "__main__":
-    port = int(get_value_from_args("--port", DEFAULT_PORT))
-    server = get_value_from_args("--server-name", DEFAULT_SERVER_NAME)
-    launch_gradio(server, port)
-EOF
-
-cp /tmp/voice_entry.py "$APP_DIR/voice_entry.py"
-
-# 3. run pyinstaller
-echo "==> pyinstaller bundling (this takes a while with torch)..."
-pyinstaller \
-    --onedir \
-    --name "voice" \
-    --add-data "$APP_DIR/assets:assets" \
-    --add-data "$APP_DIR/rvc:rvc" \
-    --add-data "$APP_DIR/tabs:tabs" \
-    --add-data "$APP_DIR/models:models" \
-    --add-data "$APP_DIR/assets/pwa:assets/pwa" \
-    --add-data "$APP_DIR/icon.png:." \
-    --add-data "$APP_DIR/requirements.txt:." \
-    --add-data "$APP_DIR/LICENSE:." \
-    --add-data "$APP_DIR/TERMS_OF_USE.md:." \
-    --hidden-import "gradio" \
-    --hidden-import "sounddevice" \
-    --hidden-import "soundfile" \
-    --hidden-import "librosa" \
-    --hidden-import "scipy" \
-    --hidden-import "numpy" \
-    --hidden-import "torch" \
-    --hidden-import "torchaudio" \
-    --hidden-import "einops" \
-    --hidden-import "transformers" \
-    --hidden-import "matplotlib" \
-    --hidden-import "tensorboardX" \
-    --hidden-import "edge_tts" \
-    --hidden-import "pypresence" \
-    --hidden-import "psutil" \
-    --hidden-import "noisereduce" \
-    --hidden-import "pedalboard" \
-    --hidden-import "soxr" \
-    --hidden-import "stftpitchshift" \
-    --hidden-import "PIL" \
-    --hidden-import "webrtcvad" \
-    --hidden-import "requests" \
-    --hidden-import "tqdm" \
-    --collect-all "torch" \
-    --collect-all "torchaudio" \
-    --collect-all "gradio" \
-    --collect-all "sounddevice" \
-    --collect-all "transformers" \
-    --exclude-module "webrtcvad" \
-    --noconfirm \
-    "$APP_DIR/voice_entry.py" >> "$APP_DIR/build.log" 2>&1
-
-echo "==> pyinstaller done"
-
-# 4. copy portaudio lib into the bundle (needed for sounddevice)
-BUNDLE_DIR="$APP_DIR/dist/voice"
-if [ -f "/usr/lib/x86_64-linux-gnu/libportaudio.so.2" ]; then
-    cp /usr/lib/x86_64-linux-gnu/libportaudio.so.2 "$BUNDLE_DIR/"
-elif [ -f "/usr/lib/libportaudio.so.2" ]; then
-    cp /usr/lib/libportaudio.so.2 "$BUNDLE_DIR/"
-fi
-# also copy any other needed system libs
-for lib in libsndfile.so.1 libstdc++.so.6; do
-    find /usr/lib -name "$lib" -exec cp {} "$BUNDLE_DIR/" \; 2>/dev/null || true
-done
-
-# 5. create AppDir structure
-APPDIR="$APP_DIR/dist/Voice.AppDir"
+# 4. build AppDir
+rm -rf "$APPDIR"
+mkdir -p "$APPDIR/usr"
 mkdir -p "$APPDIR/usr/bin"
 mkdir -p "$APPDIR/usr/share/applications"
 mkdir -p "$APPDIR/usr/share/icons/hicolor/256x256/apps"
 
-# move pyinstaller bundle into AppDir
-cp -r "$BUNDLE_DIR"/* "$APPDIR/usr/bin/"
-cp "$APP_DIR/icon.png" "$APPDIR/usr/share/icons/hicolor/256x256/apps/voice.png"
+# copy venv
+cp -r "$VENV_DIR" "$APPDIR/usr/venv"
+
+# copy app files (everything except .git, __pycache__, etc.)
+rsync -a --exclude='.git' --exclude='__pycache__' --exclude='*.pyc' \
+    --exclude='build.log' --exclude='dist' --exclude='releases' \
+    --exclude='.buildozer' --exclude='*.AppImage' \
+    "$APP_DIR/" "$APPDIR/usr/voice/"
+
+# create launcher script
+mkdir -p "$APPDIR/usr/bin"
+cat > "$APPDIR/usr/bin/voice" << 'LAUNCHER'
+#!/bin/bash
+HERE="$(dirname "$(readlink -f "${0}")")"
+# use PYTHONPATH to point to bundled packages, system python3 for the interpreter
+export PYTHONPATH="${HERE}/../venv/lib/python3.14/site-packages:${PYTHONPATH}"
+export LD_LIBRARY_PATH="${HERE}/../venv/lib:${LD_LIBRARY_PATH}"
+cd "${HERE}/../voice"
+exec python3 app.py "$@"
+LAUNCHER
+chmod +x "$APPDIR/usr/bin/voice"
+
+# copy portaudio if available
+PORTAUDIO_SRC=""
+for pa in /usr/lib/x86_64-linux-gnu/libportaudio.so.2 /usr/lib/libportaudio.so.2; do
+    if [ -f "$pa" ]; then
+        PORTAUDIO_SRC="$pa"
+        break
+    fi
+done
+if [ -n "$PORTAUDIO_SRC" ]; then
+    cp "$PORTAUDIO_SRC" "$APPDIR/usr/venv/lib/"
+    echo "==> portaudio bundled"
+else
+    echo "==> portaudio not bundled — app will start but audio won't work"
+    echo "    install portaudio19-dev for audio support"
+fi
+
+# copy system libs needed for audio
+for lib in libsndfile.so.1; do
+    found=$(find /usr/lib -name "$lib" 2>/dev/null | head -1)
+    if [ -n "$found" ]; then
+        cp "$found" "$APPDIR/usr/venv/lib/"
+    fi
+done
 
 # create desktop file
 cat > "$APPDIR/usr/share/applications/voice.desktop" << EOF
@@ -117,32 +101,50 @@ Name=Voice
 Comment=real-time voice changer — feel like you. sound like home.
 Exec=voice
 Icon=voice
-Categories=Audio;Multimedia;
+Categories=AudioVideo;
 Terminal=false
 EOF
+
+# create icons
+cp "$APP_DIR/icon.png" "$APPDIR/usr/share/icons/hicolor/256x256/apps/voice.png"
+cp "$APP_DIR/icon.png" "$APPDIR/.DirIcon"
+cp "$APP_DIR/icon.png" "$APPDIR/voice.png"
+cp "$APPDIR/usr/share/applications/voice.desktop" "$APPDIR/"
 
 # create AppRun
 cat > "$APPDIR/AppRun" << 'APPRUN'
 #!/bin/bash
+set -e
 HERE="$(dirname "$(readlink -f "${0}")")"
-export PATH="${HERE}/usr/bin:$PATH"
-export LD_LIBRARY_PATH="${HERE}/usr/bin:${LD_LIBRARY_PATH}"
-exec "${HERE}/usr/bin/voice" "$@"
+HOME="${HOME:?}"
+VOICE_HOME="${HOME}/.voice"
+
+# create all writable data dirs ahead of time
+mkdir -p "${VOICE_HOME}/logs/zips" "${VOICE_HOME}/logs/weights"
+mkdir -p "${VOICE_HOME}/models"
+mkdir -p "${VOICE_HOME}/assets/audios" "${VOICE_HOME}/assets/datasets" "${VOICE_HOME}/assets/presets"
+mkdir -p "${VOICE_HOME}/rvc/models/embedders/embedders_custom"
+mkdir -p "${VOICE_HOME}/rvc/models/pretraineds/custom"
+
+# tell the appimage bootstrap where to redirect writes
+export VOICE_DATA_DIR="${VOICE_HOME}"
+
+# set up python and library paths
+export PYTHONPATH="${HERE}/usr/venv/lib/python3.14/site-packages:${PYTHONPATH}"
+export LD_LIBRARY_PATH="${HERE}/usr/venv/lib:${LD_LIBRARY_PATH}"
+
+# run from the app mount (needed for import resolution)
+cd "${HERE}/usr/voice"
+exec python3 app.py "$@"
 APPRUN
 chmod +x "$APPDIR/AppRun"
 
-# create .DirIcon
-cp "$APP_DIR/icon.png" "$APPDIR/.DirIcon"
-cp "$APP_DIR/icon.png" "$APPDIR/voice.png"
+# 5. build appimage
+echo "==> building appimage (this compresses the venv — may take a minute)..."
+/tmp/appimagetool --no-appstream "$APPDIR" "$RELEASE_DIR/Voice-${VERSION}-x86_64.AppImage" 2>&1
 
-# 6. build the appimage
-echo "==> building appimage..."
-cp "$APPDIR/usr/share/applications/voice.desktop" "$APPDIR/voice.desktop"
-ARCH=x86_64 /tmp/appimagetool --no-appstream "$APPDIR" "$RELEASE_DIR/Voice-${VERSION}-x86_64.AppImage" >> "$APP_DIR/build.log" 2>&1
+# 6. cleanup
+rm -rf "$VENV_DIR" "$APPDIR"
 
-# 7. cleanup
-rm -f "$APP_DIR/voice_entry.py" "$APP_DIR/voice.spec"
-rm -rf "$APP_DIR/build" "$APP_DIR/dist"
-
-echo "==> done! appimage at: $RELEASE_DIR/Voice-${VERSION}-x86_64.AppImage"
-ls -lh "$RELEASE_DIR/"
+echo "==> done!"
+ls -lh "$RELEASE_DIR/Voice-${VERSION}-x86_64.AppImage"

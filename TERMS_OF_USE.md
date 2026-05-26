@@ -45,7 +45,7 @@ The following uses are explicitly prohibited:
 
 ## Training Data
 
-All official models distributed by Voice have been trained under publicly available datasets such as [VCTK](https://huggingface.co/datasets/IAHispano/Voice-Dataset). We strive to maintain transparency and ethical practices in the development and distribution of our tools.
+All official models distributed by Voice have been trained under publicly available datasets such as [VCTK](https://huggingface.co/datasets/IAHispano/Applio-Dataset). We strive to maintain transparency and ethical practices in the development and distribution of our tools.
 
 ## Amendments
 

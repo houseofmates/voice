@@ -22,6 +22,8 @@ i18n = I18nAuto()
 now_dir = os.getcwd()
 sys.path.append(now_dir)
 
+from rvc.lib import paths as _paths
+
 
 sup_audioext = {
     "wav",
@@ -41,14 +43,12 @@ sup_audioext = {
 
 # Custom Pretraineds
 pretraineds_custom_path = os.path.join(
-    now_dir, "rvc", "models", "pretraineds", "custom"
+    _paths.data_path(), "rvc", "models", "pretraineds", "custom"
 )
 
 pretraineds_custom_path_relative = os.path.relpath(pretraineds_custom_path, now_dir)
 
-custom_embedder_root = os.path.join(
-    now_dir, "rvc", "models", "embedders", "embedders_custom"
-)
+custom_embedder_root = _paths.embedder_root()
 custom_embedder_root_relative = os.path.relpath(custom_embedder_root, now_dir)
 
 os.makedirs(custom_embedder_root, exist_ok=True)
@@ -783,7 +783,7 @@ def train_tab():
         terms_checkbox = gr.Checkbox(
             label=i18n("I agree to the terms of use"),
             info=i18n(
-                "Please ensure compliance with the terms and conditions detailed in [this document](https://github.com/IAHispano/Voice/blob/main/TERMS_OF_USE.md) before proceeding with your training."
+                "Please ensure compliance with the terms and conditions detailed in [this document](https://github.com/IAHispano/Applio/blob/main/TERMS_OF_USE.md) before proceeding with your training."
             ),
             value=False,
             interactive=True,

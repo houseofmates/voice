@@ -11,29 +11,40 @@ i18n = I18nAuto()
 now_dir = os.getcwd()
 sys.path.append(now_dir)
 
+# use writable data dir for plugins (appimage-safe)
+from rvc.lib import paths as _paths
 from tabs.settings.sections.restart import restart_applio
 
-plugins_path = os.path.join(now_dir, "tabs", "plugins", "installed")
+plugins_path = os.path.join(_paths.data_path(), "plugins", "installed")
 if not os.path.exists(plugins_path):
     os.makedirs(plugins_path)
 json_file_path = os.path.join(now_dir, "assets", "config.json")
+config_file_path = os.path.join(_paths.data_path(), "config.json")
+if not os.path.exists(config_file_path):
+    if os.path.exists(json_file_path):
+        shutil.copy2(json_file_path, config_file_path)
+    else:
+        with open(config_file_path, "w", encoding="utf-8") as f:
+            json.dump({"plugins": []}, f, indent=2)
 current_folders = os.listdir(plugins_path)
 
 
 def get_existing_folders():
-    if os.path.exists(json_file_path):
-        with open(json_file_path, "r", encoding="utf-8") as file:
+    if os.path.exists(config_file_path):
+        with open(config_file_path, "r", encoding="utf-8") as file:
             config = json.load(file)
-            return config["plugins"]
+            return config.get("plugins", [])
     else:
         return []
 
 
 def save_existing_folders(existing_folders):
-    with open(json_file_path, "r", encoding="utf-8") as file:
-        config = json.load(file)
-        config["plugins"] = existing_folders
-    with open(json_file_path, "w", encoding="utf-8") as file:
+    config = {}
+    if os.path.exists(config_file_path):
+        with open(config_file_path, "r", encoding="utf-8") as file:
+            config = json.load(file)
+    config["plugins"] = existing_folders
+    with open(config_file_path, "w", encoding="utf-8") as file:
         json.dump(config, file, indent=2, ensure_ascii=False)
 
 

@@ -3,9 +3,19 @@ import sys
 import librosa
 import traceback
 import numpy as np
-import sounddevice as sd
 from queue import Queue
 from dataclasses import dataclass
+
+# sounddevice requires system portaudio; degrade gracefully
+import importlib
+_sounddevice_spec = importlib.util.find_spec("sounddevice")
+if _sounddevice_spec is not None:
+    try:
+        import sounddevice as sd
+    except OSError:
+        sd = None
+else:
+    sd = None
 
 now_dir = os.getcwd()
 sys.path.append(now_dir)

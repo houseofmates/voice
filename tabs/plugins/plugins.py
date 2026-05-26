@@ -4,6 +4,7 @@ import importlib.util
 import tabs.plugins.plugins_core as plugins_core
 
 from assets.i18n.i18n import I18nAuto
+from rvc.lib import paths as _paths
 
 i18n = I18nAuto()
 
@@ -26,7 +27,7 @@ def plugins_tab():
             outputs=[dropbox],
         )
 
-    for plugin in os.listdir(os.path.join(now_dir, "tabs", "plugins", "installed")):
+    for plugin in os.listdir(os.path.join(_paths.data_path(), "plugins", "installed")):
         plugin_main = f"tabs.plugins.installed.{plugin}.plugin"
         plugin_import = importlib.import_module(plugin_main)
 
