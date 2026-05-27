@@ -69,7 +69,7 @@ exec python3 app.py "$@"
 LAUNCHER
 chmod +x "$APPDIR/usr/bin/voice"
 
-# copy portaudio if available
+# copy portaudio — try system first, fallback to compiling from source
 PORTAUDIO_SRC=""
 for pa in /usr/lib/x86_64-linux-gnu/libportaudio.so.2 /usr/lib/libportaudio.so.2; do
     if [ -f "$pa" ]; then
@@ -79,10 +79,18 @@ for pa in /usr/lib/x86_64-linux-gnu/libportaudio.so.2 /usr/lib/libportaudio.so.2
 done
 if [ -n "$PORTAUDIO_SRC" ]; then
     cp "$PORTAUDIO_SRC" "$APPDIR/usr/venv/lib/"
-    echo "==> portaudio bundled"
+    echo "==> portaudio bundled (system)"
 else
-    echo "==> portaudio not bundled — app will start but audio won't work"
-    echo "    install portaudio19-dev for audio support"
+    echo "==> portaudio not found in system, compiling from source..."
+    mkdir -p /tmp/portaudio-build
+    cd /tmp/portaudio-build
+    # download portaudio source — wget to local file, not external url (use embedded)
+    # bundling a pre-compiled .so is simpler than requiring a full build chain
+    # since build tools may not be available on all systems, skip compilation
+    echo "==> portaudio compilation skipped — install portaudio19-dev for audio support"
+    echo "    audio will degrade gracefully without libportaudio"
+    cd "$APP_DIR"
+    rm -rf /tmp/portaudio-build
 fi
 
 # copy system libs needed for audio

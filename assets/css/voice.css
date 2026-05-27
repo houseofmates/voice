@@ -1,395 +1,750 @@
-// voice.css — pkm aesthetic (frontend skill)
-// solid #050505, varela round, yellow/blue, no gradients, no shadows, lowercase
+/* ============================================================
+   voice.css - grado 6 compatible stylesheet for voice (applio fork)
+   aesthetic: cozy dark, flat, zero rounded corners, zero gradients
+   ============================================================ */
 
+/* --- font import --- */
 @import url('https://fonts.googleapis.com/css2?family=Varela+Round&display=swap');
 
-* {
-    font-family: 'Varela Round', sans-serif !important;
+/* ============================================================
+   1. base reset + typography
+   ============================================================ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Varela Round', sans-serif;
+}
+
+/* lowercase selectively — not everything needs it */
+h1, h2, h3, h4, h5, h6, label, button, .gr-button, .tab-nav button,
+.card-header, .app-title, .app-tagline, .welcome-section h1,
+.welcome-section .subtitle, .welcome-section .comfort-text,
+.voice-model-name, .pitch-display, .settings-section h3,
+input, textarea, select, .gr-input, .gr-dropdown {
+  text-transform: lowercase !important;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
-    background: #050505 !important;
+  background-color: #050505;
+  color: #666666;
+  line-height: 1.6;
+  min-height: 100vh;
 }
 
-.gradio-container {
-    max-width: 1400px !important;
-    margin: 0 auto !important;
-    padding: 20px !important;
-    background: transparent !important;
+/* headings */
+h1, h2, h3, h4, h5, h6,
+.gradio-header h1,
+.gradio-header h2,
+.gradio-header h3,
+.header h1,
+.header h2,
+.header h3 {
+  color: #ffffff;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  margin-bottom: 0.75rem;
 }
 
-// global lowercase
-label, button, .gr-button, .tab-nav button, .card-header,
-h1, h2, h3, h4, h5, h6, span, p, .gr-box, .gr-input,
-input, textarea, select, .gr-dropdown, .app-title, .app-tagline,
-.welcome-section h1, .welcome-section .subtitle, .welcome-section .comfort-text {
-    text-transform: lowercase !important;
+p, span, div, label, input, textarea, select, button {
+  text-transform: lowercase;
 }
 
-// header
-.app-header {
-    text-align: center;
-    padding: 30px 20px 10px 20px;
-    margin-bottom: 20px;
-}
-
-.app-title {
-    font-family: 'Varela Round', sans-serif !important;
-    font-weight: 400 !important;
-    font-size: 2.8em !important;
-    color: #ffffff !important;
-    letter-spacing: 1px;
-    margin-bottom: 5px !important;
-}
-
+/* app tagline */
 .app-tagline {
-    font-family: 'Varela Round', sans-serif !important;
-    font-weight: 400 !important;
-    font-size: 1.2em !important;
-    color: #f6b012 !important;
-    letter-spacing: 2px;
-    text-transform: lowercase;
+  color: #f6b012;
+  font-size: 0.95rem;
+  letter-spacing: 0.04em;
 }
 
-// tab nav
-.tab-nav {
-    background: #000000 !important;
-    border: 1px solid #1a1a1a !important;
-    border-radius: 0 !important;
-    padding: 4px !important;
-    margin-bottom: 20px !important;
+/* ============================================================
+   2. grado 6 component overrides (updated class names)
+   ============================================================ */
+
+/* main app container */
+#voice-app,
+.gradio-app,
+.app,
+.wrap,
+.main-wrap,
+#component-0,
+[id^="component-"] > .wrap {
+  background-color: #050505 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
 }
 
-.tab-nav button {
-    background: transparent !important;
-    border: none !important;
-    color: #666666 !important;
-    font-family: 'Varela Round', sans-serif !important;
-    font-weight: 400 !important;
-    font-size: 0.95em !important;
-    padding: 10px 20px !important;
-    border-radius: 0 !important;
-    transition: color 0.15s ease !important;
-    cursor: pointer !important;
-    flex: 1 !important;
-    text-transform: lowercase !important;
+/* panels / cards */
+.panel,
+.card,
+.gradio-panel,
+.gradio-card,
+.container,
+.gradio-container,
+.gradio-block,
+.block,
+.form {
+  background-color: #0a0a0a !important;
+  border: 1px solid #1a1a1a !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
 }
 
-.tab-nav button:hover {
-    color: #ffffff !important;
-    background: transparent !important;
+/* inputs, textareas, number fields */
+input[type="text"],
+input[type="number"],
+input[type="file"],
+textarea,
+.gradio-input,
+.gradio-textbox,
+.gradio-number,
+.svelte-1g283il input,
+.svelte-1g283il textarea,
+[data-testid="textbox"] input,
+[data-testid="number"] input,
+[data-testid="textbox"] textarea {
+  background-color: #0f0f0f !important;
+  color: #ffffff !important;
+  border: 1px solid #222222 !important;
+  border-radius: 0 !important;
+  padding: 0.6rem 0.8rem !important;
+  font-size: 0.95rem !important;
+  outline: none !important;
+  transition: border-color 0.2s ease;
 }
 
-.tab-nav button.selected {
-    color: #f6b012 !important;
-    background: transparent !important;
+input:focus,
+textarea:focus,
+.gradio-input:focus,
+.svelte-1g283il input:focus,
+.svelte-1g283il textarea:focus,
+[data-testid="textbox"] input:focus,
+[data-testid="number"] input:focus {
+  border-color: #f6b012 !important;
 }
 
-// cards
-.card {
-    background: #000000 !important;
-    border: 1px solid #1a1a1a !important;
-    border-radius: 0 !important;
-    padding: 20px !important;
-    box-shadow: none !important;
+/* ============================================================
+   3. navbar / tab navigation (grado 6 tabs)
+   ============================================================ */
+.tabs,
+.gradio-tabs,
+.tab-nav,
+.gradio-tab-nav,
+[role="tablist"],
+.svelte-tabs,
+.svelte-tabs__tab-list {
+  display: flex;
+  flex-direction: row;
+  background-color: #0a0a0a;
+  border-bottom: 2px solid #1a1a1a;
+  padding: 0;
+  margin-bottom: 1.5rem;
+  overflow-x: auto;
 }
 
-.card-header {
-    font-family: 'Varela Round', sans-serif !important;
-    font-weight: 400 !important;
-    font-size: 1.3em !important;
-    color: #f6b012 !important;
-    margin-bottom: 16px !important;
-    padding-bottom: 10px !important;
-    border-bottom: 1px solid #1a1a1a !important;
-    text-transform: lowercase !important;
+.tabs .tab,
+.tabs .tab-item,
+.gradio-tabs .tab,
+.gradio-tab-nav .tab,
+[role="tab"],
+.svelte-tabs__tab {
+  background-color: transparent;
+  color: #666666;
+  border: none;
+  border-bottom: 3px solid transparent;
+  padding: 0.9rem 1.4rem;
+  cursor: pointer;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+  transition: color 0.2s ease, border-color 0.2s ease;
+  white-space: nowrap;
 }
 
-// buttons
-button, .gr-button {
-    border-radius: 0 !important;
-    box-shadow: none !important;
-    transition: opacity 0.15s ease !important;
-    font-family: 'Varela Round', sans-serif !important;
-    font-weight: 400 !important;
-    cursor: pointer !important;
-    border: 1px solid transparent !important;
-    text-transform: lowercase !important;
+.tabs .tab:hover,
+.gradio-tabs .tab:hover,
+[role="tab"]:hover,
+.svelte-tabs__tab:hover {
+  color: #ffffff;
+  background-color: #111111;
 }
 
-button:hover, .gr-button:hover {
-    opacity: 0.85 !important;
+.tabs .tab.selected,
+.tabs .tab--selected,
+.gradio-tabs .tab.selected,
+.gradio-tab-nav .tab.selected,
+[role="tab"][aria-selected="true"],
+.svelte-tabs__tab--selected {
+  color: #f6b012 !important;
+  border-bottom-color: #f6b012 !important;
+  background-color: #111111;
 }
 
-// primary — yellow
-.gr-button-primary, button.lg.primary, input[type="submit"] {
-    background: #f6b012 !important;
-    color: #050505 !important;
-    border: 1px solid #f6b012 !important;
+/* tab panels */
+.tab-content,
+.gradio-tab-content,
+[role="tabpanel"],
+.svelte-tabs__tab-panel {
+  padding: 1.5rem 1rem;
 }
 
-.gr-button-primary:hover, button.lg.primary:hover, input[type="submit"]:hover {
-    background: #f6b012 !important;
-    opacity: 0.85 !important;
-}
-
-// secondary — blue
-.gr-button-secondary, button.lg.secondary {
-    background: transparent !important;
-    color: #3c9fdd !important;
-    border: 1px solid #3c9fdd !important;
-}
-
-.gr-button-secondary:hover, button.lg.secondary:hover {
-    background: #3c9fdd !important;
-    color: #050505 !important;
-    opacity: 1 !important;
-}
-
-// stop — blue filled
-.gr-button-stop, button.lg.stop {
-    background: #3c9fdd !important;
-    color: #ffffff !important;
-    border: 1px solid #3c9fdd !important;
-}
-
-// inputs
-input, textarea, select, .gr-input, .gr-box {
-    background: #050505 !important;
-    border: 1px solid #1a1a1a !important;
-    border-radius: 0 !important;
-    color: #ffffff !important;
-    padding: 10px 14px !important;
-    font-family: 'Varela Round', sans-serif !important;
-    transition: border-color 0.15s ease !important;
-}
-
-input:focus, textarea:focus, select:focus, .gr-input:focus {
-    border-color: #f6b012 !important;
-    box-shadow: none !important;
-    outline: none !important;
-}
-
-input::placeholder, textarea::placeholder {
-    color: #444444 !important;
-}
-
-// dropdowns
-.gr-dropdown, select {
-    background: #050505 !important;
-    border: 1px solid #1a1a1a !important;
-    border-radius: 0 !important;
-    color: #ffffff !important;
-}
-
-.gr-dropdown:focus, select:focus {
-    border-color: #f6b012 !important;
-}
-
-// sliders
-input[type="range"] {
-    -webkit-appearance: none !important;
-    width: 100% !important;
-    height: 4px !important;
-    background: #1a1a1a !important;
-    border-radius: 0 !important;
-    outline: none !important;
-}
-
-input[type="range"]::-webkit-slider-thumb {
-    -webkit-appearance: none !important;
-    width: 16px !important;
-    height: 16px !important;
-    background: #f6b012 !important;
-    border-radius: 0 !important;
-    cursor: pointer !important;
-    box-shadow: none !important;
-}
-
-// checkbox
-.gr-checkbox, input[type="checkbox"] {
-    accent-color: #f6b012 !important;
-}
-
-// voice meter (simplified, no glow)
-.voice-meter-container {
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-    padding: 20px !important;
-}
-
+/* ============================================================
+   4. voice meter ring animation
+   ============================================================ */
 .voice-meter-ring {
-    width: 100px !important;
-    height: 100px !important;
-    border-radius: 50% !important;
-    border: 2px solid #1a1a1a !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
+  position: relative;
+  width: 120px;
+  height: 120px;
+  margin: 2rem auto;
+  border: 4px solid #1a1a1a;
+  background-color: #0a0a0a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.voice-meter-inner {
-    width: 80px !important;
-    height: 80px !important;
-    border-radius: 50% !important;
-    background: #050505 !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    color: #ffffff !important;
-    font-family: 'Varela Round', sans-serif !important;
-    font-weight: 400 !important;
-    font-size: 0.8em !important;
+.voice-meter-ring::before {
+  content: "";
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  right: -4px;
+  bottom: -4px;
+  border: 2px solid transparent;
+  transition: border-color 0.3s ease;
 }
 
-// voice library grid
-.voice-library-grid {
-    display: grid !important;
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)) !important;
-    gap: 12px !important;
-    padding: 10px !important;
+.voice-meter-ring.active {
+  animation: pulse-lavender 1.8s ease-in-out infinite;
 }
 
-.voice-model-card {
-    background: #000000 !important;
-    border: 1px solid #1a1a1a !important;
-    border-radius: 0 !important;
-    padding: 16px !important;
-    text-align: center !important;
-    cursor: pointer !important;
-    transition: border-color 0.15s ease !important;
+.voice-meter-ring.active::before {
+  border-color: #b388ff;
 }
 
-.voice-model-card:hover {
-    border-color: #f6b012 !important;
+@keyframes pulse-lavender {
+  0% {
+    box-shadow: 0 0 0 0 rgba(179, 136, 255, 0.45);
+  }
+  70% {
+    box-shadow: 0 0 0 20px rgba(179, 136, 255, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(179, 136, 255, 0);
+  }
 }
 
-.voice-model-card.selected {
-    border-color: #3c9fdd !important;
+/* inner indicator */
+.voice-meter-ring .meter-core {
+  width: 60px;
+  height: 60px;
+  background-color: #1a1a1a;
+  transition: background-color 0.3s ease;
 }
 
-.voice-model-thumb {
-    width: 60px !important;
-    height: 60px !important;
-    border-radius: 0 !important;
-    object-fit: cover !important;
-    margin: 0 auto 10px !important;
-    border: 1px solid #1a1a1a !important;
+.voice-meter-ring.active .meter-core {
+  background-color: #b388ff;
 }
 
-.voice-model-name {
-    font-family: 'Varela Round', sans-serif !important;
-    font-weight: 400 !important;
-    color: #ffffff !important;
-    font-size: 0.9em !important;
-    margin-bottom: 4px !important;
+/* ============================================================
+   5. comfort shield toggle
+   ============================================================ */
+.comfort-shield-toggle {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 44px;
+  height: 24px;
+  background-color: #1a1a1a;
+  border: 1px solid #333333;
+  border-radius: 0 !important;
+  position: relative;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+  outline: none;
 }
 
-.voice-model-star {
-    color: #f6b012 !important;
-    cursor: pointer !important;
-    font-size: 1.1em !important;
+.comfort-shield-toggle::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 18px;
+  height: 18px;
+  background-color: #666666;
+  border-radius: 0 !important;
+  transition: transform 0.2s ease, background-color 0.2s ease;
 }
 
-// pitch display
-.pitch-display {
-    font-family: 'Varela Round', sans-serif !important;
-    font-size: 1.6em !important;
-    font-weight: 400 !important;
-    color: #f6b012 !important;
-    text-align: center !important;
-    padding: 10px !important;
+.comfort-shield-toggle:checked {
+  background-color: #f6b012;
+  border-color: #f6b012;
 }
 
-// progress bars
-progress, .gr-progress {
-    border-radius: 0 !important;
-    height: 4px !important;
-    background: #1a1a1a !important;
+.comfort-shield-toggle:checked::after {
+  transform: translateX(20px);
+  background-color: #050505;
 }
 
-progress::-webkit-progress-bar {
-    background: #1a1a1a !important;
-    border-radius: 0 !important;
+/* label pairing */
+.comfort-shield-label {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: #ffffff;
+  font-size: 0.95rem;
+  cursor: pointer;
 }
 
-progress::-webkit-progress-value {
-    background: #f6b012 !important;
-    border-radius: 0 !important;
+/* ============================================================
+   6. dropdown / select styling
+   ============================================================ */
+select,
+.gradio-dropdown,
+.svelte-1g283il select,
+[data-testid="dropdown"] select,
+.dropdown-wrap select {
+  appearance: none;
+  -webkit-appearance: none;
+  background-color: #0f0f0f;
+  color: #ffffff;
+  border: 1px solid #222222;
+  border-radius: 0 !important;
+  padding: 0.6rem 2.2rem 0.6rem 0.8rem !important;
+  font-size: 0.95rem;
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23666666'%3E%3Cpath d='M0 3h12L6 9z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.7rem center;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-// welcome
-.welcome-section {
-    text-align: center !important;
-    padding: 40px 20px !important;
+select:focus,
+.gradio-dropdown:focus,
+.svelte-1g283il select:focus,
+[data-testid="dropdown"] select:focus {
+  border-color: #f6b012 !important;
+  box-shadow: 0 0 0 2px rgba(246, 176, 18, 0.25) !important;
 }
 
-.welcome-section h1 {
-    font-family: 'Varela Round', sans-serif !important;
-    font-weight: 400 !important;
-    font-size: 2.2em !important;
-    color: #ffffff !important;
-    margin-bottom: 10px !important;
+select option,
+.gradio-dropdown option {
+  background-color: #0f0f0f;
+  color: #ffffff;
+  border-radius: 0 !important;
 }
 
-.welcome-section .subtitle {
-    font-family: 'Varela Round', sans-serif !important;
-    font-weight: 400 !important;
-    font-size: 1.1em !important;
-    color: #666666 !important;
-    letter-spacing: 1px !important;
+/* ============================================================
+   7. slider / range styling
+   ============================================================ */
+input[type="range"],
+.gradio-slider input,
+.svelte-1g283il input[type="range"],
+[data-testid="slider"] input {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 4px;
+  background-color: #1a1a1a;
+  border-radius: 0 !important;
+  outline: none;
+  margin: 0.8rem 0;
 }
 
-.welcome-section .comfort-text {
-    font-family: 'Varela Round', sans-serif !important;
-    font-weight: 400 !important;
-    font-size: 1em !important;
-    color: #f6b012 !important;
-    margin-top: 20px !important;
+/* slider thumb */
+input[type="range"]::-webkit-slider-thumb,
+.gradio-slider input::-webkit-slider-thumb,
+.svelte-1g283il input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  background-color: #f6b012;
+  border: none;
+  border-radius: 0 !important;
+  cursor: pointer;
+  transition: transform 0.15s ease;
 }
 
-// settings sections
-.settings-section {
-    margin-bottom: 20px !important;
+input[type="range"]::-moz-range-thumb,
+.gradio-slider input::-moz-range-thumb,
+.svelte-1g283il input[type="range"]::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  background-color: #f6b012;
+  border: none;
+  border-radius: 0 !important;
+  cursor: pointer;
 }
 
-.settings-section h3 {
-    font-family: 'Varela Round', sans-serif !important;
-    font-weight: 400 !important;
-    color: #ffffff !important;
-    margin-bottom: 12px !important;
+input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
 }
 
-// info/growl
-.gr-info, .gr-alert {
-    border-radius: 0 !important;
-    border: none !important;
-    font-family: 'Varela Round', sans-serif !important;
+input[type="range"]::-moz-range-thumb:hover {
+  transform: scale(1.15);
 }
 
-.gr-info {
-    background: #000000 !important;
-    color: #3c9fdd !important;
-    border-left: 2px solid #3c9fdd !important;
+/* progress / track fill (webkit) */
+input[type="range"]::-webkit-slider-runnable-track,
+.gradio-slider input::-webkit-slider-runnable-track {
+  height: 4px;
+  background-color: #1a1a1a;
+  border-radius: 0 !important;
 }
 
-// footer
-footer { display: none !important; }
-
-// light mode override
-body.light-mode {
-    background: #f5f0eb !important;
+/* ============================================================
+   8. settings card layout
+   ============================================================ */
+.settings-section,
+.settings-card,
+.gradio-settings,
+.settings-panel {
+  background-color: #0a0a0a;
+  border: 1px solid #1a1a1a;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
 }
+
+.settings-section h3,
+.settings-card h3,
+.settings-panel h3 {
+  color: #ffffff;
+  font-size: 1.05rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #1a1a1a;
+}
+
+.settings-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.settings-row:last-child {
+  margin-bottom: 0;
+}
+
+.settings-label {
+  color: #ffffff;
+  min-width: 140px;
+  font-size: 0.92rem;
+}
+
+.settings-value {
+  color: #666666;
+  font-size: 0.92rem;
+  flex: 1;
+}
+
+/* ============================================================
+   9. buttons
+   ============================================================ */
+button,
+.btn,
+.gradio-button,
+.svelte-1g283il button,
+[data-testid="button"] {
+  background-color: #1a1a1a;
+  color: #ffffff;
+  border: 1px solid #333333;
+  border-radius: 0 !important;
+  padding: 0.65rem 1.4rem;
+  font-size: 0.95rem;
+  cursor: pointer;
+  text-transform: lowercase;
+  letter-spacing: 0.02em;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+  outline: none;
+}
+
+button:hover,
+.btn:hover,
+.gradio-button:hover,
+.svelte-1g283il button:hover {
+  background-color: #262626;
+  border-color: #f6b012;
+}
+
+button:active,
+.btn:active,
+.gradio-button:active {
+  background-color: #333333;
+}
+
+/* primary accent button */
+button.primary,
+.btn-primary,
+.gradio-button.primary,
+[data-testid="button"].primary {
+  background-color: #f6b012;
+  color: #050505;
+  border-color: #f6b012;
+  font-weight: 600;
+}
+
+button.primary:hover,
+.btn-primary:hover {
+  background-color: #d99a0a;
+  border-color: #d99a0a;
+}
+
+/* ============================================================
+   10. secondary / info text
+   ============================================================ */
+.secondary-text,
+.info-text,
+.hint,
+.help-text {
+  color: #3c9fdd;
+  font-size: 0.85rem;
+}
+
+/* ============================================================
+   11. audio / file components
+   ============================================================ */
+.gradio-audio,
+.audio-player,
+[data-testid="audio"] {
+  background-color: #0a0a0a;
+  border: 1px solid #1a1a1a;
+  border-radius: 0 !important;
+}
+
+/* ============================================================
+   12. light mode override (body.light-mode)
+   ============================================================ */
+body.light-mode,
+body.light-mode #voice-app,
+body.light-mode .gradio-app,
+body.light-mode .app,
+body.light-mode .wrap,
+body.light-mode .main-wrap {
+  background-color: #f5f0eb !important;
+  color: #333333 !important;
+}
+
+body.light-mode h1,
+body.light-mode h2,
+body.light-mode h3,
+body.light-mode h4,
+body.light-mode h5,
+body.light-mode h6,
+body.light-mode .gradio-header h1,
+body.light-mode .header h1 {
+  color: #1a1a1a !important;
+}
+
+body.light-mode .panel,
 body.light-mode .card,
-body.light-mode .tab-nav {
-    background: #ffffff !important;
-    border-color: #ddd !important;
+body.light-mode .gradio-panel,
+body.light-mode .gradio-card,
+body.light-mode .container,
+body.light-mode .gradio-container,
+body.light-mode .block,
+body.light-mode .form,
+body.light-mode .svelte-1g283il,
+body.light-mode .svelte-1g283il > div {
+  background-color: #ffffff !important;
+  border-color: #e0dcd6 !important;
 }
-body.light-mode input,
+
+body.light-mode input[type="text"],
+body.light-mode input[type="number"],
 body.light-mode textarea,
-body.light-mode select {
-    background: #faf8f5 !important;
-    border-color: #ddd !important;
-    color: #222 !important;
+body.light-mode .gradio-input,
+body.light-mode .svelte-1g283il input,
+body.light-mode .svelte-1g283il textarea {
+  background-color: #fafafa !important;
+  color: #1a1a1a !important;
+  border-color: #d6d2cc !important;
+}
+
+body.light-mode input:focus,
+body.light-mode textarea:focus {
+  border-color: #f6b012 !important;
+}
+
+body.light-mode .tabs,
+body.light-mode .gradio-tabs,
+body.light-mode .tab-nav,
+body.light-mode [role="tablist"],
+body.light-mode .svelte-tabs__tab-list {
+  background-color: #ffffff;
+  border-bottom-color: #e0dcd6;
+}
+
+body.light-mode .tabs .tab,
+body.light-mode .gradio-tabs .tab,
+body.light-mode [role="tab"],
+body.light-mode .svelte-tabs__tab {
+  color: #666666;
+}
+
+body.light-mode .tabs .tab:hover,
+body.light-mode .gradio-tabs .tab:hover,
+body.light-mode [role="tab"]:hover {
+  color: #1a1a1a;
+  background-color: #f5f0eb;
+}
+
+body.light-mode .tabs .tab.selected,
+body.light-mode .tabs .tab--selected,
+body.light-mode [role="tab"][aria-selected="true"],
+body.light-mode .svelte-tabs__tab--selected {
+  color: #c48a0a !important;
+  border-bottom-color: #c48a0a !important;
+  background-color: #f5f0eb;
+}
+
+body.light-mode .voice-meter-ring {
+  background-color: #ffffff;
+  border-color: #e0dcd6;
+}
+
+body.light-mode .voice-meter-ring .meter-core {
+  background-color: #e0dcd6;
+}
+
+body.light-mode .comfort-shield-toggle {
+  background-color: #e0dcd6;
+  border-color: #d6d2cc;
+}
+
+body.light-mode .comfort-shield-toggle::after {
+  background-color: #666666;
+}
+
+body.light-mode select,
+body.light-mode .gradio-dropdown,
+body.light-mode .svelte-1g283il select {
+  background-color: #fafafa;
+  color: #1a1a1a;
+  border-color: #d6d2cc;
+}
+
+body.light-mode select option {
+  background-color: #fafafa;
+  color: #1a1a1a;
+}
+
+body.light-mode input[type="range"],
+body.light-mode .gradio-slider input {
+  background-color: #e0dcd6;
+}
+
+body.light-mode input[type="range"]::-webkit-slider-thumb,
+body.light-mode .gradio-slider input::-webkit-slider-thumb {
+  background-color: #c48a0a;
+}
+
+body.light-mode .settings-section,
+body.light-mode .settings-card {
+  background-color: #ffffff;
+  border-color: #e0dcd6;
+}
+
+body.light-mode .settings-section h3,
+body.light-mode .settings-card h3 {
+  color: #1a1a1a;
+  border-bottom-color: #e0dcd6;
+}
+
+body.light-mode .settings-label {
+  color: #1a1a1a;
+}
+
+body.light-mode button,
+body.light-mode .btn,
+body.light-mode .gradio-button {
+  background-color: #e0dcd6;
+  color: #1a1a1a;
+  border-color: #d6d2cc;
+}
+
+body.light-mode button:hover,
+body.light-mode .btn:hover {
+  background-color: #d6d2cc;
+  border-color: #c48a0a;
+}
+
+body.light-mode .app-tagline {
+  color: #c48a0a;
+}
+
+/* ============================================================
+   13. responsive mobile padding
+   ============================================================ */
+@media (max-width: 768px) {
+  html {
+    font-size: 15px;
+  }
+
+  body {
+    padding: 0.75rem;
+  }
+
+  .tabs .tab,
+  .gradio-tabs .tab,
+  [role="tab"],
+  .svelte-tabs__tab {
+    padding: 0.7rem 1rem;
+    font-size: 0.88rem;
+  }
+
+  .tab-content,
+  .gradio-tab-content,
+  [role="tabpanel"],
+  .svelte-tabs__tab-panel {
+    padding: 1rem 0.5rem;
+  }
+
+  .settings-section,
+  .settings-card {
+    padding: 1rem;
+  }
+
+  .settings-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.4rem;
+  }
+
+  .settings-label {
+    min-width: auto;
+  }
+
+  .voice-meter-ring {
+    width: 90px;
+    height: 90px;
+  }
+
+  .voice-meter-ring .meter-core {
+    width: 44px;
+    height: 44px;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    padding: 0.5rem;
+  }
+
+  .tabs .tab,
+  .gradio-tabs .tab,
+  [role="tab"],
+  .svelte-tabs__tab {
+    padding: 0.6rem 0.8rem;
+    font-size: 0.85rem;
+  }
 }

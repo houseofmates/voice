@@ -7,6 +7,7 @@ sys.path.append(os.getcwd())
 from rvc.realtime.audio import Audio
 from rvc.realtime.core import AUDIO_SAMPLE_RATE
 from rvc.realtime.worker import VoiceChangerWorker
+from rvc.lib.comfort_shield import get_comfort_shield
 
 
 class AudioCallbacks:
@@ -41,6 +42,8 @@ class AudioCallbacks:
         clean_audio: bool = False,
         clean_strength: float = 0.5,
         post_process: bool = False,
+        comfort_shield_enabled: bool = False,
+        comfort_warmth: float = 0.5,
         record_audio: bool = False,
         record_audio_path: str = None,
         export_format: str = "WAV",
@@ -94,6 +97,11 @@ class AudioCallbacks:
             monitor,
         )
 
+        # comfort shield — applies after voice conversion to reduce dysphoria
+        self.comfort_shield = get_comfort_shield(audio_sample_rate)
+        self.comfort_shield.set_enabled(comfort_shield_enabled)
+        self.comfort_shield.set_warmth(comfort_warmth)
+
     def change_voice(
         self,
         received_data: np.ndarray,
@@ -125,6 +133,8 @@ class AudioCallbacks:
         result = self.vc.retrieve()
         if result is not None:
             audio, vol, perf_ms, _warmup = result
+            # apply comfort shield to soften / warm the output
+            audio = self.comfort_shield.process(audio)
             self._last_output = audio
             self._last_vol = vol
             return audio, vol, [0, perf_ms, 0], None
