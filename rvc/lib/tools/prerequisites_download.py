@@ -43,7 +43,8 @@ executables_list = [
 folder_mapping_list = {
     "pretrained_v2/": os.path.join(data_root, "rvc/models/pretraineds/hifi-gan") + "/",
     "refinegan/": os.path.join(data_root, "rvc/models/pretraineds/refinegan") + "/",
-    "embedders/contentvec/": os.path.join(data_root, "rvc/models/embedders/contentvec") + "/",
+    "embedders/contentvec/": os.path.join(data_root, "rvc/models/embedders/contentvec")
+    + "/",
     "predictors/": os.path.join(data_root, "rvc/models/predictors") + "/",
     "formant/": os.path.join(data_root, "rvc/models/formant") + "/",
 }

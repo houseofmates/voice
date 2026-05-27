@@ -11,6 +11,7 @@ class Voice(Base):
     """Voice theme — pkm aesthetic.
     Solid #050505, Varela Round, yellow/blue accent, no shadows, lowercase.
     """
+
     def __init__(
         self,
         *,
@@ -50,7 +51,6 @@ class Voice(Base):
             background_fill_primary_dark="#050505",
             background_fill_secondary="#000000",
             background_fill_secondary_dark="#000000",
-
             # blocks (cards) — solid black
             block_background_fill="#000000",
             block_background_fill_dark="#000000",
@@ -62,7 +62,6 @@ class Voice(Base):
             block_padding="*spacing_xl",
             block_shadow="none",
             block_shadow_dark="none",
-
             # block info / labels
             block_info_text_color="#666666",
             block_info_text_color_dark="#666666",
@@ -79,7 +78,6 @@ class Voice(Base):
             block_label_text_color="#ffffff",
             block_label_text_color_dark="#ffffff",
             block_label_text_weight="400",
-
             # block titles
             block_title_background_fill="transparent",
             block_title_background_fill_dark="transparent",
@@ -91,7 +89,6 @@ class Voice(Base):
             block_title_text_color_dark="#f6b012",
             block_title_text_size="*text_lg",
             block_title_text_weight="400",
-
             # body text
             body_text_color="#ffffff",
             body_text_color_dark="#ffffff",
@@ -99,13 +96,11 @@ class Voice(Base):
             body_text_color_subdued_dark="#666666",
             body_text_size="*text_md",
             body_text_weight="400",
-
             # borders
             border_color_accent="#f6b012",
             border_color_accent_dark="#f6b012",
             border_color_primary="#1a1a1a",
             border_color_primary_dark="#1a1a1a",
-
             # buttons — primary (yellow)
             button_primary_background_fill="#f6b012",
             button_primary_background_fill_dark="#f6b012",
@@ -119,7 +114,6 @@ class Voice(Base):
             button_primary_text_color_dark="#050505",
             button_primary_text_color_hover="#050505",
             button_primary_text_color_hover_dark="#050505",
-
             # buttons — secondary (blue outline)
             button_secondary_background_fill="transparent",
             button_secondary_background_fill_dark="transparent",
@@ -133,7 +127,6 @@ class Voice(Base):
             button_secondary_text_color_dark="#3c9fdd",
             button_secondary_text_color_hover="#050505",
             button_secondary_text_color_hover_dark="#050505",
-
             # buttons — cancel/stop (blue filled)
             button_cancel_background_fill="#3c9fdd",
             button_cancel_background_fill_dark="#3c9fdd",
@@ -147,7 +140,6 @@ class Voice(Base):
             button_cancel_text_color_dark="#ffffff",
             button_cancel_text_color_hover="#ffffff",
             button_cancel_text_color_hover_dark="#ffffff",
-
             # button sizes
             button_large_padding="*spacing_lg calc(2 * *spacing_lg)",
             button_large_radius="0",
@@ -158,7 +150,6 @@ class Voice(Base):
             button_small_text_size="*text_md",
             button_small_text_weight="400",
             button_transition="0.15s ease all",
-
             # checkboxes
             checkbox_background_color="#1a1a1a",
             checkbox_background_color_dark="#1a1a1a",
@@ -184,7 +175,6 @@ class Voice(Base):
             checkbox_label_text_size="*text_md",
             checkbox_label_text_weight="400",
             checkbox_shadow="none",
-
             # inputs
             input_background_fill="#050505",
             input_background_fill_dark="#050505",
@@ -210,12 +200,10 @@ class Voice(Base):
             input_shadow_focus_dark="none",
             input_text_size="*text_md",
             input_text_weight="400",
-
             # layout
             container_radius="0",
             embed_radius="0",
             layout_gap="*spacing_xxl",
-
             # links
             link_text_color="#3c9fdd",
             link_text_color_active="#3c9fdd",
@@ -225,11 +213,9 @@ class Voice(Base):
             link_text_color_hover_dark="#3c9fdd",
             link_text_color_visited="#3c9fdd",
             link_text_color_visited_dark="#3c9fdd",
-
             # loader
             loader_color="#f6b012",
             loader_color_dark="#f6b012",
-
             # panels
             panel_background_fill="#000000",
             panel_background_fill_dark="#000000",
@@ -237,22 +223,18 @@ class Voice(Base):
             panel_border_color_dark="#1a1a1a",
             panel_border_width="1px",
             panel_border_width_dark="1px",
-
             # shadows — all none
             shadow_drop="none",
             shadow_drop_lg="none",
             shadow_inset="none",
             shadow_spread="0",
             shadow_spread_dark="0",
-
             # slider
             slider_color="#f6b012",
             slider_color_dark="#f6b012",
-
             # stat
             stat_background_fill="#f6b012",
             stat_background_fill_dark="#f6b012",
-
             # tables
             table_border_color="#1a1a1a",
             table_border_color_dark="#1a1a1a",
@@ -263,7 +245,6 @@ class Voice(Base):
             table_radius="0",
             table_row_focus="rgba(246,176,18,0.08)",
             table_row_focus_dark="rgba(246,176,18,0.08)",
-
             # error
             error_text_color="#ffffff",
             error_text_color_dark="#ffffff",
@@ -273,7 +254,6 @@ class Voice(Base):
             error_border_color_dark="#1a1a1a",
             error_border_width="1px",
             error_border_width_dark="1px",
-
             # color accent
             color_accent="#f6b012",
             color_accent_soft="rgba(246,176,18,0.06)",

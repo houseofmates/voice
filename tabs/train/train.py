@@ -24,7 +24,6 @@ sys.path.append(now_dir)
 
 from rvc.lib import paths as _paths
 
-
 sup_audioext = {
     "wav",
     "mp3",

@@ -9,11 +9,11 @@ import numpy as np
 
 def analyze_voice(audio: np.ndarray, sample_rate: int = 48000) -> dict:
     """analyze a voice sample and return characteristics + starting suggestions.
-    
+
     args:
         audio: 1d numpy array of float32 samples
         sample_rate: sample rate in hz
-        
+
     returns:
         dict with:
           - 'pitch_mean': float (hz) — average fundamental frequency
@@ -29,7 +29,9 @@ def analyze_voice(audio: np.ndarray, sample_rate: int = 48000) -> dict:
           - 'confidence': float (0-1)
     """
     result = {
-        "pitch_mean": 0, "pitch_min": 0, "pitch_max": 0,
+        "pitch_mean": 0,
+        "pitch_min": 0,
+        "pitch_max": 0,
         "pitch_range": "unknown",
         "timbre": "neutral",
         "suggested_model_type": "any",
@@ -82,7 +84,9 @@ def analyze_voice(audio: np.ndarray, sample_rate: int = 48000) -> dict:
             result["pitch_range"] = "wide"
 
         # detect timbre from spectral features
-        spectral = librosa.feature.spectral_centroid(y=audio.astype(np.float64), sr=sample_rate)
+        spectral = librosa.feature.spectral_centroid(
+            y=audio.astype(np.float64), sr=sample_rate
+        )
         mean_centroid = float(np.mean(spectral))
 
         if mean_centroid > 3000:
@@ -95,7 +99,9 @@ def analyze_voice(audio: np.ndarray, sample_rate: int = 48000) -> dict:
             result["timbre"] = "breathy"
 
         # spectral rolloff for breathiness estimate
-        rolloff = librosa.feature.spectral_rolloff(y=audio.astype(np.float64), sr=sample_rate)
+        rolloff = librosa.feature.spectral_rolloff(
+            y=audio.astype(np.float64), sr=sample_rate
+        )
         mean_rolloff = float(np.mean(rolloff))
         if mean_rolloff < 2000:
             result["timbre"] = "breathy"  # overwrite if very low rolloff
@@ -143,7 +149,9 @@ def analyze_voice(audio: np.ndarray, sample_rate: int = 48000) -> dict:
         # confidence based on sample length and voiced ratio
         voiced_ratio = float(voiced.sum() / len(voiced))
         sample_seconds = len(audio) / sample_rate
-        result["confidence"] = round(min(1.0, voiced_ratio * 0.8 + sample_seconds * 0.02), 2)
+        result["confidence"] = round(
+            min(1.0, voiced_ratio * 0.8 + sample_seconds * 0.02), 2
+        )
 
     except Exception:
         result["confidence"] = 0.0

@@ -4,8 +4,8 @@ appimage bootstrap — redirects writable paths when running from read-only fs.
 gradio apps typically run from read-only appimage mounts.
 this module intercepts os.makedirs and os.open to redirect writes to ~/.voice/.
 """
+
 import os
-import functools
 
 # throwaway import to prevent cycles
 _original_makedirs = os.makedirs
@@ -65,6 +65,7 @@ def init():
 
         # also intercept builtins.open for paths on the readonly mount
         import builtins
+
         _original_open = builtins.open
 
         def _patched_open(file, mode="r", *args, **kwargs):

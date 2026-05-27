@@ -22,7 +22,11 @@ import json
 import os
 from datetime import datetime
 
-PRESETS_PATH = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "models", "presets.json")
+PRESETS_PATH = os.path.join(
+    os.path.dirname(os.path.dirname(os.path.dirname(__file__))),
+    "models",
+    "presets.json",
+)
 
 
 def _ensure_file():
@@ -81,7 +85,11 @@ def delete_preset(name: str) -> bool:
 
 
 # === last session (auto-resume) ===
-LAST_SESSION_PATH = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "models", "last_session.json")
+LAST_SESSION_PATH = os.path.join(
+    os.path.dirname(os.path.dirname(os.path.dirname(__file__))),
+    "models",
+    "last_session.json",
+)
 
 
 def save_last_session(config: dict):

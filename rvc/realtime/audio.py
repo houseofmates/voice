@@ -8,6 +8,7 @@ from dataclasses import dataclass
 
 # sounddevice requires system portaudio; degrade gracefully
 import importlib
+
 _sounddevice_spec = importlib.util.find_spec("sounddevice")
 if _sounddevice_spec is not None:
     try:

@@ -61,7 +61,9 @@ json_url = "https://huggingface.co/IAHispano/Applio/raw/main/pretrains.json"
 
 
 def fetch_pretrained_data():
-    pretraineds_custom_path = os.path.join(_paths.data_path(), "rvc", "models", "pretraineds", "custom")
+    pretraineds_custom_path = os.path.join(
+        _paths.data_path(), "rvc", "models", "pretraineds", "custom"
+    )
     os.makedirs(pretraineds_custom_path, exist_ok=True)
     try:
         with open(

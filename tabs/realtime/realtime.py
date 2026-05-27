@@ -11,11 +11,15 @@ import torch
 _sounddevice_available = False
 try:
     import sounddevice as sd
+
     _sounddevice_available = True
 except OSError:
     sd = None
     import logging
-    logging.warning("PortAudio library not found — audio capture/playback disabled. Install portaudio19-dev and restart.")
+
+    logging.warning(
+        "PortAudio library not found — audio capture/playback disabled. Install portaudio19-dev and restart."
+    )
 
 now_dir = os.getcwd()
 sys.path.append(now_dir)
@@ -34,7 +38,9 @@ custom_embedder_root = _paths.embedder_root()
 
 os.makedirs(custom_embedder_root, exist_ok=True)
 
-custom_embedder_root_relative = os.path.relpath(custom_embedder_root, _paths.data_path())
+custom_embedder_root_relative = os.path.relpath(
+    custom_embedder_root, _paths.data_path()
+)
 model_root_relative = os.path.relpath(model_root, _paths.data_path())
 
 

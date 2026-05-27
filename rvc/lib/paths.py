@@ -1,9 +1,11 @@
 """path resolution for voice — handles appimage read-only fs."""
+
 import os
+
 
 def data_path(subdir: str = "") -> str:
     """return a writable path under the voice data directory.
-    
+
     when running from AppImage, os.getcwd() points to a read-only mount.
     this redirects writable storage to ~/.voice/.
     """
@@ -17,7 +19,7 @@ def data_path(subdir: str = "") -> str:
 
 def app_path(subdir: str = "") -> str:
     """return a path under the voice application directory.
-    
+
     use this for reading bundled assets/models that ship with the app.
     """
     base = os.environ.get("VOICE_APP_DIR", os.getcwd())

@@ -13,7 +13,9 @@ import json
 import numpy as np
 import soundfile as sf
 
-SOUNDBOARD_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "models", "soundboard")
+SOUNDBOARD_DIR = os.path.join(
+    os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "models", "soundboard"
+)
 INDEX_PATH = os.path.join(SOUNDBOARD_DIR, "index.json")
 
 
@@ -44,11 +46,13 @@ def list_slots() -> list[dict]:
     idx = _read_index()
     result = []
     for slot_id, meta in idx.items():
-        result.append({
-            "id": slot_id,
-            "name": meta.get("name", f"slot {slot_id}"),
-            "duration_sec": meta.get("duration_sec", 0),
-        })
+        result.append(
+            {
+                "id": slot_id,
+                "name": meta.get("name", f"slot {slot_id}"),
+                "duration_sec": meta.get("duration_sec", 0),
+            }
+        )
     return result
 
 

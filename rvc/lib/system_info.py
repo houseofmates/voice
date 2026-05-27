@@ -4,7 +4,6 @@ used by the smart model downloader to estimate which models will run well.
 """
 
 import os
-import sys
 import subprocess
 import json
 import re
@@ -61,9 +60,14 @@ def get_gpu_info() -> dict:
     # try nvidia-smi
     try:
         result = subprocess.run(
-            ["nvidia-smi", "--query-gpu=name,memory.total,driver_version",
-             "--format=csv,noheader,nounits"],
-            capture_output=True, text=True, timeout=10,
+            [
+                "nvidia-smi",
+                "--query-gpu=name,memory.total,driver_version",
+                "--format=csv,noheader,nounits",
+            ],
+            capture_output=True,
+            text=True,
+            timeout=10,
         )
         if result.returncode == 0 and result.stdout.strip():
             parts = result.stdout.strip().split("\n")[0].split(",")
@@ -79,9 +83,12 @@ def get_gpu_info() -> dict:
     # try nvidia-ml-py or torch
     try:
         import torch
+
         if torch.cuda.is_available():
             info["model"] = torch.cuda.get_device_name(0)
-            info["vram_gb"] = round(torch.cuda.get_device_properties(0).total_memory / (1024**3), 1)
+            info["vram_gb"] = round(
+                torch.cuda.get_device_properties(0).total_memory / (1024**3), 1
+            )
             return info
     except Exception:
         pass
@@ -90,7 +97,9 @@ def get_gpu_info() -> dict:
         # rocm-smi for amd gpus
         result = subprocess.run(
             ["rocm-smi", "--showmeminfo", "vram"],
-            capture_output=True, text=True, timeout=10,
+            capture_output=True,
+            text=True,
+            timeout=10,
         )
         if result.returncode == 0:
             for line in result.stdout.split("\n"):
@@ -109,7 +118,10 @@ def get_gpu_info() -> dict:
     # try lspci for amd/intel integrated gpus
     try:
         result = subprocess.run(
-            ["lspci"], capture_output=True, text=True, timeout=5,
+            ["lspci"],
+            capture_output=True,
+            text=True,
+            timeout=5,
         )
         for line in result.stdout.split("\n"):
             if "VGA" in line or "3D" in line or "Display" in line:
@@ -119,7 +131,7 @@ def get_gpu_info() -> dict:
                     if len(parts) >= 3:
                         name = ":".join(parts[2:]).strip()
                         # remove trailing hex revision
-                        name = re.sub(r'\s*\(rev\s+\w+\)', '', name)
+                        name = re.sub(r"\s*\(rev\s+\w+\)", "", name)
                         info["model"] = name.strip()
                         # igpus share system ram — report as shared
                         try:
@@ -130,13 +142,14 @@ def get_gpu_info() -> dict:
                                         info["vram_gb"] = round(kb / (1024 * 1024), 1)
                                         info["driver"] = "shared (system ram)"
                                         break
-                        except: pass
+                        except:
+                            pass
                         return info
                 elif "Intel" in line and "HD Graphics" in line:
                     parts = line.split(":")
                     if len(parts) >= 3:
                         name = ":".join(parts[2:]).strip()
-                        name = re.sub(r'\s*\(rev\s+\w+\)', '', name)
+                        name = re.sub(r"\s*\(rev\s+\w+\)", "", name)
                         info["model"] = name.strip()
                         info["vram_gb"] = 0
                         info["driver"] = "shared (system ram)"
@@ -187,8 +200,9 @@ def get_remote_system_info(host: str = "192.168.4.250", user: str = "house") -> 
     returns a dict with the same structure as get_full_system_info(),
     or an error dict if ssh fails.
     """
-    import tempfile, uuid
-    script = r'''
+    import uuid
+
+    script = r"""
 import json, os, subprocess, re
 info = {"cpu": {"model":"unknown","cores":0,"threads":0}, "ram":{"total_gb":0,"available_gb":0},"gpu":{"model":"none detected","vram_gb":0,"driver":""},"os":{"name":"unknown","version":""},"hostname":"unknown"}
 info["hostname"] = os.uname().nodename
@@ -231,7 +245,7 @@ try:
                     break
 except: pass
 print(json.dumps(info))
-'''
+"""
     try:
         tag = uuid.uuid4().hex[:8]
         local_path = f"/tmp/voice_remote_check_{tag}.py"
@@ -241,12 +255,16 @@ print(json.dumps(info))
         # scp to remote
         subprocess.run(
             ["scp", local_path, f"{user}@{host}:{remote_path}"],
-            capture_output=True, text=True, timeout=10,
+            capture_output=True,
+            text=True,
+            timeout=10,
         )
         # run on remote
         result = subprocess.run(
             ["ssh", f"{user}@{host}", f"python3 {remote_path} && rm {remote_path}"],
-            capture_output=True, text=True, timeout=15,
+            capture_output=True,
+            text=True,
+            timeout=15,
         )
         os.unlink(local_path)
         if result.returncode == 0 and result.stdout.strip():
@@ -258,7 +276,7 @@ print(json.dumps(info))
 
 def estimate_model_performance(system_info: dict) -> dict:
     """estimate which model qualities will run well on the given system.
-    
+
     returns a dict with:
       - 'tier': 'low' | 'medium' | 'high' | 'ultra'
       - 'max_sample_rate': 24000 | 32000 | 40000 | 48000
