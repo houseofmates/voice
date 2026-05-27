@@ -19,22 +19,29 @@ class RichPresenceManager:
                 print(error)
                 self.rpc = None
                 self.running = False
+            except FileNotFoundError:
+                print("Discord/Equicord not found — presence disabled.")
+                self.rpc = None
+                self.running = False
+            except ConnectionRefusedError:
+                print("Discord/Equicord IPC refused — presence disabled.")
+                self.rpc = None
+                self.running = False
             except Exception as error:
-                print(f"An error occurred connecting to Discord: {error}")
+                print(f"Could not detect Discord or Equicord running: {error}")
                 self.rpc = None
                 self.running = False
 
     def update_presence(self):
         if self.rpc:
             self.rpc.update(
-                state="applio.org",
-                details="Open ecosystem for voice cloning",
+                state="voice — your voice, your home",
+                details="real-time voice changer",
                 buttons=[
-                    {"label": "Home", "url": "https://applio.org"},
-                    {"label": "Download", "url": "https://applio.org/products/applio"},
+                    {"label": "github", "url": "https://github.com/houseofmates/voice"},
                 ],
                 large_image="logo",
-                large_text="Experimenting with applio",
+                large_text="voice changer",
                 start=dt.datetime.now().timestamp(),
             )
 

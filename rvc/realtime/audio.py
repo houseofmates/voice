@@ -47,6 +47,8 @@ def list_audio_device():
     """
     Function to query audio devices and host api.
     """
+    if sd is None:
+        return [], []
     try:
         audio_device_list = sd.query_devices()
     except Exception as e:
@@ -118,6 +120,8 @@ def resolve_sample_rate(
     For all other host APIs the input device's default_samplerate is used
     so that the stream matches the rate the OS/driver actually operates at.
     """
+    if sd is None:
+        return audio_sample_rate
     if asio_enabled:
         return audio_sample_rate
     try:

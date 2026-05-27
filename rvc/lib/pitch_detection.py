@@ -140,6 +140,9 @@ def mic_test(device_name: str, duration: float = 5.0,
     """
     try:
         import sounddevice as sd
+        if sd is None:
+            import numpy as np
+            return np.zeros(int(duration * sample_rate), dtype=np.float32)
         
         # Find device index from name string
         devices = sd.query_devices()
